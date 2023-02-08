@@ -260,7 +260,7 @@ pkolmim <- function(x, N){
 #https://www.statology.org/kolmogorov-smirnov-test-r/
 #https://stats.stackexchange.com/questions/389034/kolmogorov-smirnov-test-calculating-the-p-value-manually
 
-
+# Tue Feb  7 21:33:40 2023 ------------------------------
 #####################
 # Problem 2
 #####################
@@ -277,20 +277,168 @@ hist(data2$y, breaks = 10,probability = T ,
 lines(density(data2$y), col="red", lwd=2)
 
 ggplot(data2, aes(x = y)) + geom_dotplot()
-
-
 ggplot(data2, aes(x, y)) + geom_point()
+
+#beta <- 2.7
+#sigma <- sqrt(1.3 )
+#ex_data <- data.frame(x = runif(200, 1, 10))
+#ex_data$y <- 0 + beta * ex_data$x + rnorm(200, 0, sigma )
+
+data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
+ggsave("graphics/mle_data.png")
+
+pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
+plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
+dev.off()
+
+# from Jeff's notes
+linear.lik <- function(theta, y, X){
+	n <- nrow(X )
+	k <- ncol(X )
+	beta <- theta[ 1 : k ]
+	sigma2 <- theta[ k + 1 ] ^ 2
+	e <- y - X%*%beta
+	logl <- -.5 *n* log(2 * pi)-.5 *n* log(sigma2)-(( t(e)%*%
+																											e)/(2 * sigma2))
+	return(-logl )
+}
+
+#  Ex: Normal MLE
+#  This function, at different values of β and σ, creates a surface
+surface <- list()
+k <- 0
+for(beta in seq(0, 5, 0.1)) {
+	for(sigma in seq(0.1, 5, 0.1)) {
+		k <- k + 1
+		logL <- linear.lik(theta= c(0, beta, sigma), y = data2$y,
+											 X = cbind(1, data2$x))
+		surface[[k]] <- data.frame(beta = beta, sigma = sigma ,
+															 logL = -logL )
+	}
+}
+
+surface <- do.call(rbind, surface )
+require(lattice)
+
+# doesn't work as png
+pdf("./graphics/wireframe.pdf", width = 9 )
+wireframe(logL ~ beta * sigma, surface, shade = TRUE )
+dev.off()
+
+#  Ex: Normal MLE in R
+#  We can find parameters that specify this point with R's
+#  built-in optimization commands
+
+linear.MLE <- optim(fn = linear.lik, par = c(1, 1, 1), hessian =TRUE,
+										y = data2$y, X= cbind(1, data2$x), method = "BFGS")
+
+linear.MLE$par
+#[1]  0.1398324  2.7265559 -1.4390716
+
+
+# Ex: Compare MLE to lm in R
+#  Ordinary least squares is equivalent to maximum likelihood
+#  for a linear model, so it makes sense that lm would give us
+#  same answers
+#  I Note that σ2 is used in determining the standard errors
+
+linear.lm <- lm(y ~ x, data2)
+summary(lm(y ~ x, data2))
+#  Coefficients:
+#    Estimate Std. Error t value Pr(>|t|)
+#  (Intercept) -0.01307 0.17228 -0.076 0.94
+#  x 2.70436 0.02819 95.950 <2e-16 ***
+
+# summary(lm(y ~ x, data2))
+
+#Call:
+#	lm(formula = y ~ x, data = data2)
+
+#Residuals:
+#	Min      1Q  Median      3Q     Max
+#-3.1906 -0.9374 -0.1665  0.8931  4.8032
+
+#Coefficients:
+#	Estimate Std. Error t value Pr(>|t|)
+#(Intercept)  0.13919    0.25276   0.551    0.582
+#x            2.72670    0.04159  65.564   <2e-16 ***
+#	---
+#	Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#Residual standard error: 1.447 on 198 degrees of freedom
+#Multiple R-squared:  0.956,	Adjusted R-squared:  0.9557
+#F-statistic:  4299 on 1 and 198 DF,  p-value: < 2.2e-16
+
+
+stargazer::stargazer(linear.MLE, type="text", summary=FALSE)
+stargazer::stargazer(linear.lm, type="text")
+
+print(linear.MLE)
+class(linear.MLE)
+class(linear.lm)
+
+output_stargazer("mle_models.tex",
+								 linear.MLE, linear.lm,
+								 title="Comparison of MLE to Linear Model - normal",
+								 label="tab:mle:lm",  digits = 4, appendVal = FALSE
+)
+
+
+
+N <- 200
+df <- data2
+plot(df$x, df$y)
+
+model1 <- lm(y ~ x, data=df)
+stargazer(model1, title="A Model")  # I'd like to produce a similar table for the model below
+
+ll <- function(params) {
+	## Log likelihood for y ~ x + student's t errors
+	params <- as.list(params)
+	return(sum(dt((df$y - params$const - params$beta*df$x) / params$scale, df=params$degrees.freedom, log=TRUE) -
+						 	log(params$scale)))
+}
+
+model2 <- optim(par=c(const=5, beta=1, scale=3, degrees.freedom=5), lower=c(-Inf, -Inf, 0.1, 0.1),
+								fn=ll, method="L-BFGS-B", control=list(fnscale=-1), hessian=TRUE)
+model2.coefs <- data.frame(coefficient=names(model2$par), value=as.numeric(model2$par),
+													 se=as.numeric(sqrt(diag(solve(-model2$hessian)))))
+
+#stargazer(model2.coefs, title="Another Model", summary=FALSE, type="text")  # Works, but how can I mimic what stargazer does with lm objects?
+
+
+
+model2.lm = lm(y ~ ., data.frame(y=runif(5), beta=runif(5), scale=runif(5), degrees.freedom=runif(5)))
+model2.lm$coefficients <- model2$par
+model2.lm$fitted.values <- model2$par["const"] + model2$par["beta"]*df$x
+model2.lm$residuals <- df$y - model2.lm$fitted.values
+
+
+stargazer(model2.lm, model1, se = list(model2.coefs$se), summary=FALSE, type='text')
+
+
+
+#ll.lm = lm(y ~ ., data.frame(y=runif(5), beta=runif(5), scale=runif(5), degrees.freedom=runif(5)))
+ll.lm$coefficients <- linear.MLE$par
+ll.lm$fitted.values <- linear.MLE$par["const"] + linear.MLE$par["beta"]*data2$x
+ll.lm$residuals <- data2$y - linear.MLE$fitted.values
+stargazer(ll.lm, se = list(linear.MLE.coefs$se), summary=FALSE, type='text')
+
+
+
+
+# NO
+stargazer(linear.MLE,
+	coef = list(linear.MLE$par),
+	se = list(),
+	omit = c(sequence),
+	covariate.labels = c("intercept", "beta1",  "beta2" ),
+	dep.var.labels.include = FALSE,
+	notes.append=FALSE, type = "text")   #, file=""
 
 #https://stackoverflow.com/questions/66906859/how-to-use-optim-to-produce-coefficient-estimates-for-a-generalized-linear-mod
 
-ols <- glm(y~x, data = data2, family = "gaussian")
-coef(ols)
-#(Intercept)           x
-#1.6159588   0.1820778
 
-
-
-#dnorm(x, mean = 0, sd = 1, log = FALSE)
 neg.LL <- function(p=c(0,0)) with(data2, {
   eta <- p[1] + p[2]*x
   sd_val <- sqrt(sum((x-eta)^2)/length(x))
@@ -325,29 +473,12 @@ ols <- nlm(f,  p=c(200,200) )
 ols
 summary(ols)
 
-# NO below - Fisher scoring
-ols <- glm(y~x, data = data, family = quasi )
+# Newton-Raphson solution + Fisher scoring
+ols <- glm(y~x, data = data2, family = quasi )
 summary(ols)
 #library
 #ols2 <- ols(y~x, data = data, family = quasi )
 
-#quasibinomial doesn't work because y>1
-ols <- glm(y~x, data = data, family = quasipoisson , method = "")
-summary(ols)
-
-#ols <- glm(y~x, data = data, family = binomial(logit) )
-#summary(ols)
-
-
-require(olsrr)
-olsr <- ols_regress(y~x, data = data2, family = "gaussian")
-olsr
-
-
-#https://rpubs.com/Koba/MLE-Normal
-#library(bbmle)
-mu.bb = mean(data2$y)
-sd.bb = sd(data2$y)
 
 MLE <- optim(c(0,0), fn = neg.LL, control=(list(fnscale = -1)),
              hessian = T)
