@@ -208,6 +208,8 @@ pks <- function (dat)  {
 }
 1-pks(data)
 
+
+
 pks_xN <- function (D,N)  {
   K <- D * sqrt(N)
   x<- K
@@ -272,24 +274,46 @@ set.seed (123)
 data2 <- data.frame(x = runif(200, 1, 10))
 data2$y <- 0 + 2.75*data2$x + rnorm(200, 0, 1.5)
 
-hist(data2$y, breaks = 10,probability = T ,
+png(filename = "graphics/q2_hist.png")
+hist(data2$y, breaks = 15,probability = T ,
      main = "Histogram of y Variable")
 lines(density(data2$y), col="red", lwd=2)
+dev.off()
 
-ggplot(data2, aes(x = y)) + geom_dotplot()
-ggplot(data2, aes(x, y)) + geom_point()
+pd <- ggplot(data2, aes(x = y)) + geom_dotplot()
+pp <- ggplot(data2, aes(x, y)) + geom_point()
+pp + plot_annotation(title = "y ~ x") & theme_minimal()
+ggsave("graphics/q2_xy.png")
+
+#ph <-
+
+ph <- ggplot(data2, aes(x = y)) +
+	geom_histogram(bins = 15, aes(y=..density..),colour = "black", fill = "grey") +
+	geom_density(col="red", position="stack") + theme_minimal()
+ph
+ggsave("graphics/q2_hist.png")
+
+pp  + ph +
+	plot_annotation(title = "y ~ x") & theme_minimal()
+ggsave("graphics/q2_xy.png")
+
+require(patchwork)
+
+pd + pp + plot_layout(ncol = 2, guides = "collect") +
+	plot_annotation(title = "y values") & theme_minimal()
+
 
 #beta <- 2.7
 #sigma <- sqrt(1.3 )
 #ex_data <- data.frame(x = runif(200, 1, 10))
 #ex_data$y <- 0 + beta * ex_data$x + rnorm(200, 0, sigma )
 
-data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
-ggsave("graphics/mle_data.png")
+#data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
+#ggsave("graphics/mle_data.png")
 
-pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
-plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
-dev.off()
+#pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
+#plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
+#dev.off()
 
 # from Jeff's notes
 linear.lik <- function(theta, y, X){
@@ -369,16 +393,24 @@ summary(lm(y ~ x, data2))
 #Multiple R-squared:  0.956,	Adjusted R-squared:  0.9557
 #F-statistic:  4299 on 1 and 198 DF,  p-value: < 2.2e-16
 
+starg.MLE <- glm(y~x, data = data2, family = quasi )
+starg.MLE$coefficients <- linear.MLE
 
-stargazer::stargazer(linear.MLE, type="text", summary=FALSE)
+stargazer::stargazer(starg.MLE, type="text", summary=FALSE)
 stargazer::stargazer(linear.lm, type="text")
 
 print(linear.MLE)
-class(linear.MLE)
-class(linear.lm)
+str(linear.MLE)
+str(linear.lm)
+
 
 output_stargazer("mle_models.tex",
 								 linear.MLE, linear.lm,
+								 title="Comparison of MLE to Linear Model - normal",
+								 label="tab:mle:lm",  digits = 4, appendVal = FALSE
+)
+stargazer(type="text",
+								 starg.MLE, linear.lm,
 								 title="Comparison of MLE to Linear Model - normal",
 								 label="tab:mle:lm",  digits = 4, appendVal = FALSE
 )
