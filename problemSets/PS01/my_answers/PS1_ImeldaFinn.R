@@ -23,15 +23,11 @@ pkgTest <- function(pkg){
   sapply(pkg,  require,  character.only = TRUE)
 }
 
-# here is where you load any necessary packages
-# ex: stringr
-# lapply(c("stringr"),  pkgTest)
-
 #genl
 lapply(c("ggplot2", "tidyverse", "stargazer"),  pkgTest)
-#specific
-#lapply(c("olsrr"),  pkgTest)
+#q specific
 lapply(c("KSgeneral"),  pkgTest)
+lapply(c("lattice", "patchwork"),  pkgTest)
 
 # set wd for current folder
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -76,7 +72,6 @@ data <- rcauchy(n=N, location = 0, scale = 1)
 summary(data)
 hist(data)
 
-
 View(data)
 
 #H0 data follows normal distribution
@@ -84,18 +79,22 @@ View(data)
 #alpha = 5%
 
 # to latex
+# function to return values for kolmogorov-smirnov test
+#   - one-sample, comparison to normal PDF
+# input: empirical data
+# output: D-statistic, D+, D-, K-statistic (=D*sqrt(N)), P(K)
 kolmogorov_smirnov <- function (dat)  {
   # get number of elements in data
   N <- length(dat)
   # convert data to ECDF
   ECDF <- ecdf(dat)
   empiricalCDF <- ECDF(dat)
-  # generate test statistic
+  # calculate test statistic (D)
   D <- max(abs(empiricalCDF - pnorm(dat)))
   Dmin <- min(empiricalCDF - pnorm(dat))
   Dmax <- max(empiricalCDF - pnorm(dat))
 
-  #calculate critical value
+  #calculate critical value (K-statistic)
   K <- D * sqrt(N)
 
   # get probability of calculated test statistic
@@ -106,8 +105,8 @@ kolmogorov_smirnov <- function (dat)  {
   qval <- qval * sqrt(2 * pi) * (1/K)
 
   # return results
-  res <- tibble('Dval'= D, 'Dmax' = Dmax, 'Dmin' = Dmin,
-    'Kval'=K, 'pval'=1-qval)
+  res <- tibble('D'= D, 'Dmax' = Dmax, 'Dmin' = Dmin,
+    'K'=K, 'pval'=1-qval)
   return(res)
 }
 
@@ -121,41 +120,34 @@ print(ks_results)
 #https://www.statisticshowto.com/kolmogorov-smirnov-test/
 #K-S Test P-Value Table
 # alpha = 0.05 , N > 50
-K_alpha <-1.36 / sqrt(N)
+D_alpha <-1.36 / sqrt(N)
 #  0.04300698
 
 # Tue Feb  7 17:48:10 2023 ------------------------------
 
 # output
-
 summary(empiricalCDF)
 
-require(stargazer)
-stargazer(df[,2:3], type = "latex", label = "tab:ks:data", out = "ks_data.tex",
+#require(stargazer)
+output_stargazer("ks.tex", df[,2:3],  appendVal = FALSE,
+					type = "latex", label = "tab:ks:data",
           title="Data Summary Table", summary = TRUE,
           rownames = FALSE, nobs=TRUE)
 
-ks_output <- ks_results
-ks_output$k_alpha <- K_alpha
-stargazer(ks_output, type = "latex", out="ks_results.tex", label = "tab:ks:results",
-          title="Kolmogorov-Smirnov Test results - one sample",
-          summary = FALSE, flip = TRUE, digits = 5,
+test_notes <- paste("one sample, two sided, normal; alpha 0.05; D alpha: ", round(D_alpha,5))
+
+output_stargazer("ks.tex", ks_results, type = "latex", appendVal = TRUE,
+					label = "tab:ks:results",
+					table.placement = "!htbp",
+					summary = FALSE, flip = TRUE, digits = 5,
           object.names = TRUE,
-          dep.var.caption = "Kolmogorov-Smirnov Test results - one sample",
-          add.lines = list(c("alpha 0.05", K_alpha)),
-          model.numbers = FALSE,
-          dep.var.labels = "compared to normal distribution"  ,
-          column.labels = c("D Value", "D +", "D -", "Test Statistic (Z)", "P-value" ),
-          covariate.labels = c("D Value", "D +", "D -", "Test Statistic (Z)", "P-value" )
+          title = "Kolmogorov-Smirnov Test results",
+					notes = test_notes,
+          covariate.labels = c(" ", "value" )
 )
 
-
-#stargazer(ks_results, type = "text", title="table", flip=TRUE,
-#          covariate.labels = c("difference", "statistic", "pvalue"))
-
 # Tue Feb  7 16:50:37 2023 ------------------------------
-
-# plots
+# plot
 ECDF <- ecdf(data)
 empiricalCDF <- ECDF(data)
 emp_data <- sort(empiricalCDF)
@@ -171,25 +163,25 @@ df %>% gather(key, value, Observed_CDF, Normal) %>%
 	annotate(
 		"text", label = "Observed vs Normal",
 		x = 500, y = 1.01, size = 2
-	) +
+	)  +
+	theme_minimal() +
 	theme(legend.position = "bottom", legend.title = element_blank())
 
 ggsave("graphics/kolmogorov_smirnov.png")
-# Tue Feb  7 17:06:15 2023 ------------------------------
 
+# Tue Feb  7 17:06:15 2023 ------------------------------
 # check against built in KS implementations
-require(KSgeneral)
+#require(KSgeneral)
 
 #https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test
 KSgeneral::cont_ks_c_cdf(ks_results$Dval, N)
-ksg<-KSgeneral::cont_ks_test(data, "pnorm")
-ksg
+KSgeneral::cont_ks_test(data, "pnorm")
 
 ks.test(data, "pnorm", )
 
 # Tue Feb  7 16:12:14 2023 ------------------------------
-
 #implementation of k-s pdf from PS01
+# input: observed data
 pks <- function (dat)  {
   N <- length(dat)
   ECDF <- ecdf(dat)
@@ -208,8 +200,7 @@ pks <- function (dat)  {
 }
 1-pks(data)
 
-
-
+# input: D (test statistic), N (Number of values)
 pks_xN <- function (D,N)  {
   K <- D * sqrt(N)
   x<- K
@@ -224,37 +215,17 @@ pks_xN <- function (D,N)  {
 
 # Tue Feb  7 16:20:54 2023 ------------------------------
 
-nPlot <- 100
-d <- 1:nPlot / (nPlot/2)
-k<- sqrt(nPlot) * d
-
-pPlot <- 1-pks_xN(k, nPlot)
-plot(k, pPlot)
-
-nData <- rnorm(n = 1000, mean = 0, sd = 1)
-summary(nData)
-hist(nData)
-# check results comparing two normal samples
-kN<-kolmogorov_smirnov(nData)
-kN$pval
-
-#https://stackoverflow.com/questions/24697706/where-can-i-find-the-limiting-distribution-of-the-kolmogorov-smirnov-distance-in
-
-
 #kolmim implementation
-#n <- 100
-#x <- 1:100 / 500
-
 pkolmim <- function(x, N){
   s <- x ^ 2 * N
   ps <- pmax(0, 1 - 2 * exp(-(2.000071 + .331 / sqrt(N) + 1.409 / N) * s))
   return(ps)
 }
 
-1-pkolmim(ks_results$Dval, N)
+1-pkolmim(ks_results$D, N)
 
-
-
+# references
+#https://stackoverflow.com/questions/24697706/where-can-i-find-the-limiting-distribution-of-the-kolmogorov-smirnov-distance-in
 #https://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm
 #https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjYzKjswej8AhWfQUEAHX2SBIEQFnoECAkQAQ&url=https%3A%2F%2Fwww.statology.org%2Fkolmogorov-smirnov-test-r%2F&usg=AOvVaw2oPtTJ0EQQCRTasHZKPLpQ
 #https://rweb.webapps.cla.umn.edu/R/library/stats/html/ks.test.html
@@ -274,48 +245,29 @@ set.seed (123)
 data2 <- data.frame(x = runif(200, 1, 10))
 data2$y <- 0 + 2.75*data2$x + rnorm(200, 0, 1.5)
 
-png(filename = "graphics/q2_hist.png")
-hist(data2$y, breaks = 15,probability = T ,
-     main = "Histogram of y Variable")
-lines(density(data2$y), col="red", lwd=2)
-dev.off()
-
-pd <- ggplot(data2, aes(x = y)) + geom_dotplot()
-pp <- ggplot(data2, aes(x, y)) + geom_point()
-pp + plot_annotation(title = "y ~ x") & theme_minimal()
+pd <-ggplot(data2, aes(x = y)) + geom_dotplot(aes()) + theme_minimal()
+pd
+pp <- ggplot(data2, aes(x, y)) + geom_point(size=1) +
+	plot_annotation(title = "y ~ x") & theme_minimal()
+pp
 ggsave("graphics/q2_xy.png")
-
-#ph <-
 
 ph <- ggplot(data2, aes(x = y)) +
 	geom_histogram(bins = 15, aes(y=..density..),colour = "black", fill = "grey") +
-	geom_density(col="red", position="stack") + theme_minimal()
+	geom_density(col="red", position="stack") +
+	plot_annotation(title = "distribution of y") + theme_minimal()
 ph
 ggsave("graphics/q2_hist.png")
 
-pp  + ph +
-	plot_annotation(title = "y ~ x") & theme_minimal()
-ggsave("graphics/q2_xy.png")
+#require(patchwork)
+pp  + ph + plot_layout(ncol = 1, guides = "collect") +
+	theme_minimal() +
+	plot_annotation(title = "Q2 Data") #&
+ggsave("graphics/q2_data.png")
 
-require(patchwork)
-
-pd + pp + plot_layout(ncol = 2, guides = "collect") +
-	plot_annotation(title = "y values") & theme_minimal()
-
-
-#beta <- 2.7
-#sigma <- sqrt(1.3 )
-#ex_data <- data.frame(x = runif(200, 1, 10))
-#ex_data$y <- 0 + beta * ex_data$x + rnorm(200, 0, sigma )
-
-#data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
-#ggsave("graphics/mle_data.png")
-
-#pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
-#plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
-#dev.off()
 
 # from Jeff's notes
+# define function to be solved for maximum by optim
 linear.lik <- function(theta, y, X){
 	n <- nrow(X )
 	k <- ncol(X )
@@ -326,6 +278,109 @@ linear.lik <- function(theta, y, X){
 																											e)/(2 * sigma2))
 	return(-logl )
 }
+
+#  use optim to get MLE estimators for parameters
+linear.MLE <- optim(fn = linear.lik, par = c(theta=1, y=1, X=1),
+				hessian =TRUE, y = data2$y, X= cbind(1, data2$x), method = "BFGS")
+
+# get se for the parameters
+linear.MLE$se <- sqrt(diag(solve(linear.MLE$hessian)))
+
+
+linear.MLE$par
+#theta          y          X
+#0.1398324  2.7265559 -1.4390716
+
+linear.MLE$se
+#     theta          y          X
+#0.25140690 0.04136606 0.07191798
+
+# Ex: Compare MLE to lm in R
+#  Ordinary least squares is equivalent to maximum likelihood
+#  for a linear model, so it makes sense that lm would give us
+#  same answers
+
+linear.lm <- lm(y ~ x, data2)
+summary(lm(y ~ x, data2))
+# summary(lm(y ~ x, data2))
+#
+#Call:
+#	lm(formula = y ~ x, data = data2)
+#
+#Residuals:
+#	Min      1Q  Median      3Q     Max
+#-3.1906 -0.9374 -0.1665  0.8931  4.8032
+#
+#Coefficients:
+#	Estimate Std. Error t value Pr(>|t|)
+#(Intercept)  0.13919    0.25276   0.551    0.582
+#x            2.72670    0.04159  65.564   <2e-16 ***
+#	---
+#	Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#Residual standard error: 1.447 on 198 degrees of freedom
+#Multiple R-squared:  0.956,	Adjusted R-squared:  0.9557
+#F-statistic:  4299 on 1 and 198 DF,  p-value: < 2.2e-16
+
+# Fri Feb 10 22:42:16 2023 ------------------------------
+
+summary(linear.MLE)
+ll.lm <-linear.lm
+ll.lm$coefficients <- linear.MLE$par
+ll.lm$fitted.values <- linear.MLE$par[1] + linear.MLE$par[2]*data2$x
+ll.lm$residuals <- data2$y - linear.MLE$fitted.values
+
+linear.MLE.coefs <- data.frame(coefficient=names(linear.MLE$par), value=as.numeric(linear.MLE$par),
+															 se=as.numeric(sqrt(diag(solve(linear.MLE$hessian)))))
+ll.lm$se<- sqrt(diag(solve(linear.MLE$hessian)))
+
+ll.lm$rank <- 0
+
+stargazer(ll.lm, linear.lm, se = list(ll.lm$se), summary=FALSE, type='latex')
+
+stargazer::stargazer(ll.lm, type="text", summary=FALSE)
+
+output_stargazer("mle_models.tex",
+								 ll.lm, linear.lm,
+								 title="Comparison of MLE to Linear Model - normal",
+								 label="tab:mle:lm",  digits = 4, appendVal = FALSE
+)
+
+stargazer(linear.MLE.coefs, title="MLE Coefficients", summary=FALSE, type="text")  # Works, but how can I mimic what stargazer does with lm objects?
+
+stargazer(ll.lm, linear.lm, se = list(linear.MLE.coefs$se), summary=FALSE, type='latex',
+					label = "tab:mle", file="q2models.tex")
+
+stargazer(ll.lm, se = list(ll.lm$se), summary=FALSE, type='text')
+
+
+#check prediction equation
+paste("hat(y) = ", round(linear.MLE$par[1],5) , " (theta)  + ",
+			round(mean(data2$x),5) , 	" (mean(x)) * ",  round(linear.MLE$par[2],5),
+			" (beta) = " , round(linear.MLE$par[1] + linear.MLE$par[2]  * mean(data2$x),5))
+linear.MLE$par[1] + linear.MLE$par[2]  * mean(data2$x)
+mean(data2$y)
+mean(data2$y)
+
+sd(data2$x)
+
+
+#https://colinfay.me/intro-to-r/statistical-models-in-r.html
+#https://stackoverflow.com/questions/66906859/how-to-use-optim-to-produce-coefficient-estimates-for-a-generalized-linear-mod
+
+
+
+#----------------------------------------------------------------------
+
+#https://www.analyticsvidhya.com/blog/2018/07/introductory-guide-maximum-likelihood-estimation-case-study-r/
+
+
+#png(filename = "graphics/q2_hist.png")
+#hist(data2$y, breaks = 15,probability = T ,
+#     main = "Histogram of y Variable")
+#lines(density(data2$y), col="red", lwd=2)
+#dev.off()
+
 
 #  Ex: Normal MLE
 #  This function, at different values of β and σ, creates a surface
@@ -342,154 +397,78 @@ for(beta in seq(0, 5, 0.1)) {
 }
 
 surface <- do.call(rbind, surface )
-require(lattice)
+#require(lattice)
 
 # doesn't work as png
 pdf("./graphics/wireframe.pdf", width = 9 )
 wireframe(logL ~ beta * sigma, surface, shade = TRUE )
 dev.off()
 
-#  Ex: Normal MLE in R
-#  We can find parameters that specify this point with R's
-#  built-in optimization commands
+# Fri Feb 10 22:02:49 2023 ------------------------------
 
-linear.MLE <- optim(fn = linear.lik, par = c(1, 1, 1), hessian =TRUE,
-										y = data2$y, X= cbind(1, data2$x), method = "BFGS")
+x <- c(1.6907, 1.7242, 1.7552, 1.7842, 1.8113,
+			 1.8369, 1.8610, 1.8839)
+y <- c( 6, 13, 18, 28, 52, 53, 61, 60)
+n <- c(59, 60, 62, 56, 63, 59, 62, 60)
 
-linear.MLE$par
-#[1]  0.1398324  2.7265559 -1.4390716
-
-
-# Ex: Compare MLE to lm in R
-#  Ordinary least squares is equivalent to maximum likelihood
-#  for a linear model, so it makes sense that lm would give us
-#  same answers
-#  I Note that σ2 is used in determining the standard errors
-
-linear.lm <- lm(y ~ x, data2)
-summary(lm(y ~ x, data2))
-#  Coefficients:
-#    Estimate Std. Error t value Pr(>|t|)
-#  (Intercept) -0.01307 0.17228 -0.076 0.94
-#  x 2.70436 0.02819 95.950 <2e-16 ***
-
-# summary(lm(y ~ x, data2))
-
-#Call:
-#	lm(formula = y ~ x, data = data2)
-
-#Residuals:
-#	Min      1Q  Median      3Q     Max
-#-3.1906 -0.9374 -0.1665  0.8931  4.8032
-
-#Coefficients:
-#	Estimate Std. Error t value Pr(>|t|)
-#(Intercept)  0.13919    0.25276   0.551    0.582
-#x            2.72670    0.04159  65.564   <2e-16 ***
-#	---
-#	Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-#Residual standard error: 1.447 on 198 degrees of freedom
-#Multiple R-squared:  0.956,	Adjusted R-squared:  0.9557
-#F-statistic:  4299 on 1 and 198 DF,  p-value: < 2.2e-16
-
-starg.MLE <- glm(y~x, data = data2, family = quasi )
-starg.MLE$coefficients <- linear.MLE
-
-stargazer::stargazer(starg.MLE, type="text", summary=FALSE)
-stargazer::stargazer(linear.lm, type="text")
-
-print(linear.MLE)
-str(linear.MLE)
-str(linear.lm)
-
-
-output_stargazer("mle_models.tex",
-								 linear.MLE, linear.lm,
-								 title="Comparison of MLE to Linear Model - normal",
-								 label="tab:mle:lm",  digits = 4, appendVal = FALSE
-)
-stargazer(type="text",
-								 starg.MLE, linear.lm,
-								 title="Comparison of MLE to Linear Model - normal",
-								 label="tab:mle:lm",  digits = 4, appendVal = FALSE
-)
-
-
-
-N <- 200
-df <- data2
-plot(df$x, df$y)
-
-model1 <- lm(y ~ x, data=df)
-stargazer(model1, title="A Model")  # I'd like to produce a similar table for the model below
-
-ll <- function(params) {
-	## Log likelihood for y ~ x + student's t errors
-	params <- as.list(params)
-	return(sum(dt((df$y - params$const - params$beta*df$x) / params$scale, df=params$degrees.freedom, log=TRUE) -
-						 	log(params$scale)))
+fn <- function(p) {
+	sum(-(y*(p[1]+p[2]*x ) - n*log(1+exp(p[1]+p[2]*x))+ log(choose(n,y))))
 }
 
-model2 <- optim(par=c(const=5, beta=1, scale=3, degrees.freedom=5), lower=c(-Inf, -Inf, 0.1, 0.1),
-								fn=ll, method="L-BFGS-B", control=list(fnscale=-1), hessian=TRUE)
-model2.coefs <- data.frame(coefficient=names(model2$par), value=as.numeric(model2$par),
-													 se=as.numeric(sqrt(diag(solve(-model2$hessian)))))
+out <- nlm(fn, p=c(-50,20), hessian = TRUE)
 
-#stargazer(model2.coefs, title="Another Model", summary=FALSE, type="text")  # Works, but how can I mimic what stargazer does with lm objects?
+out$code
+out$estimate
 
-
-
-model2.lm = lm(y ~ ., data.frame(y=runif(5), beta=runif(5), scale=runif(5), degrees.freedom=runif(5)))
-model2.lm$coefficients <- model2$par
-model2.lm$fitted.values <- model2$par["const"] + model2$par["beta"]*df$x
-model2.lm$residuals <- df$y - model2.lm$fitted.values
-
-
-stargazer(model2.lm, model1, se = list(model2.coefs$se), summary=FALSE, type='text')
-
-
-
-#ll.lm = lm(y ~ ., data.frame(y=runif(5), beta=runif(5), scale=runif(5), degrees.freedom=runif(5)))
-ll.lm$coefficients <- linear.MLE$par
-ll.lm$fitted.values <- linear.MLE$par["const"] + linear.MLE$par["beta"]*data2$x
-ll.lm$residuals <- data2$y - linear.MLE$fitted.values
-stargazer(ll.lm, se = list(linear.MLE.coefs$se), summary=FALSE, type='text')
-
-
-
-
-# NO
-stargazer(linear.MLE,
-	coef = list(linear.MLE$par),
-	se = list(),
-	omit = c(sequence),
-	covariate.labels = c("intercept", "beta1",  "beta2" ),
-	dep.var.labels.include = FALSE,
-	notes.append=FALSE, type = "text")   #, file=""
-
-#https://stackoverflow.com/questions/66906859/how-to-use-optim-to-produce-coefficient-estimates-for-a-generalized-linear-mod
-
+out <- nlm(f=linear.lik, p=c(1,1,1), hessian = TRUE,
+					 y = data2$y, X= cbind(1, data2$x))
+out
 
 neg.LL <- function(p=c(0,0)) with(data2, {
-  eta <- p[1] + p[2]*x
-  sd_val <- sqrt(sum((x-eta)^2)/length(x))
-  - sum(dnorm(y, mean = eta, sd=sd_val, log = FALSE))
+	eta <- p[1] + p[2]*x
+	sd_val <- sqrt(sum((x-eta)^2)/length(x))
+	- sum(dnorm(y, mean = eta, sd=sd_val, log = FALSE))
 })
 opt<- optim(c(0,0), neg.LL, method="BFGS")
 opt
 # compare to linear model
 fm <- lm(y~x, data = data2)
-
+fm
 #opt<- optim(coef(fm), neg.LL, method="BFGS")
 opt
 coef(fm)
 
-ols$model
+
+# Fri Feb 10 22:28:26 2023 ------------------------------
+
+#beta <- 2.7
+#sigma <- sqrt(1.3 )
+#ex_data <- data.frame(x = runif(200, 1, 10))
+#ex_data$y <- 0 + beta * ex_data$x + rnorm(200, 0, sigma )
+
+#data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
+#ggsave("graphics/mle_data.png")
+
+#pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
+#plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
+#dev.off()
+
+# Fri Feb 10 22:29:14 2023 ------------------------------
+4# Newton-Raphson solution + Fisher scoring
+#library
+# gives more information on models
+require(olsrr)
+ols2 <- olsrr(y~x, data = data, family = quasi )
+
+
+MLE <- optim(c(0,0), fn = neg.LL, control=(list(fnscale = -1)),
+						 hessian = T)
+
+# Fri Feb 10 22:31:49 2023 ------------------------------
+
+
 library(bbmle)
 m<-mle2(neg.LL,start=list(),data=data2)
-m
-
 stargazer::stargazer(fm, type="text")
 stargazer::stargazer(ols, type="text")
 output_stargazer(opt)
@@ -497,27 +476,3 @@ output_stargazer(opt)
 # coef(fm)
 #(Intercept)           x
 #0.1391874   2.7266985
-
-#-----------------------------------
-f <- function(x) sum((x-1:length(x))^2)
-
-ols <- nlm(f,  p=c(200,200) )
-ols
-summary(ols)
-
-# Newton-Raphson solution + Fisher scoring
-ols <- glm(y~x, data = data2, family = quasi )
-summary(ols)
-#library
-#ols2 <- ols(y~x, data = data, family = quasi )
-
-
-MLE <- optim(c(0,0), fn = neg.LL, control=(list(fnscale = -1)),
-             hessian = T)
-
-#https://www.analyticsvidhya.com/blog/2018/07/introductory-guide-maximum-likelihood-estimation-case-study-r/
-#hist(Y$Count, breaks = 50,probability = T ,main = "Histogram of Count Variable")
-#lines(density(Y$Count), col="red", lwd=2)
-
-library(caTools)
-
