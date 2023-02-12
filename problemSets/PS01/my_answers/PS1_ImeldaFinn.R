@@ -90,9 +90,9 @@ kolmogorov_smirnov <- function (dat)  {
   ECDF <- ecdf(dat)
   empiricalCDF <- ECDF(dat)
   # calculate test statistic (D)
-  D <- max(abs(empiricalCDF - pnorm(dat)))
   Dmin <- min(empiricalCDF - pnorm(dat))
   Dmax <- max(empiricalCDF - pnorm(dat))
+  D <- max(abs(c(Dmin, Dmax)))
 
   #calculate critical value (K-statistic)
   K <- D * sqrt(N)
@@ -115,7 +115,7 @@ print(ks_results)
 
 #p < 0.05 so we reject null hypothesis
 # ie evidence does not support the hypothesis that the
-# sample data is from
+# sample data is from Normal distribution
 
 #https://www.statisticshowto.com/kolmogorov-smirnov-test/
 #K-S Test P-Value Table
@@ -125,39 +125,20 @@ D_alpha <-1.36 / sqrt(N)
 
 # Tue Feb  7 17:48:10 2023 ------------------------------
 
-# output
+
 summary(empiricalCDF)
-
-#require(stargazer)
-output_stargazer("ks.tex", df[,2:3],  appendVal = FALSE,
-					type = "latex", label = "tab:ks:data",
-          title="Data Summary Table", summary = TRUE,
-          rownames = FALSE, nobs=TRUE)
-
-test_notes <- paste("one sample, two sided, normal; alpha 0.05; D alpha: ", round(D_alpha,5))
-
-output_stargazer("ks.tex", ks_results, type = "latex", appendVal = TRUE,
-					label = "tab:ks:results",
-					table.placement = "!htbp",
-					summary = FALSE, flip = TRUE, digits = 5,
-          object.names = TRUE,
-          title = "Kolmogorov-Smirnov Test results",
-					notes = test_notes,
-          covariate.labels = c(" ", "value" )
-)
-
-# Tue Feb  7 16:50:37 2023 ------------------------------
+# OUTPUT  ------------------------------ ------------------------------
 # plot
 ECDF <- ecdf(data)
 empiricalCDF <- ECDF(data)
 emp_data <- sort(empiricalCDF)
 pnorm_data <- sort(pnorm(data))
 
-df <- data.frame('index' = 1:N, 'Observed_CDF' = emp_data, 'Normal' = pnorm_data)
+ks_df <- data.frame('index' = 1:N, 'Observed_CDF' = emp_data, 'Normal' = pnorm_data)
 summary(empiricalCDF)
 summary(pnorm_data)
 
-df %>% gather(key, value, Observed_CDF, Normal) %>%
+ks_df %>% gather(key, value, Observed_CDF, Normal) %>%
   ggplot(aes(x = index, y = value, colour = key)) +
   geom_line() + xlab('') +
 	annotate(
@@ -169,12 +150,31 @@ df %>% gather(key, value, Observed_CDF, Normal) %>%
 
 ggsave("graphics/kolmogorov_smirnov.png")
 
+#require(stargazer)
+output_stargazer("ks.tex", ks_df[,2:3],  appendVal = FALSE,
+								 type = "latex", label = "tab:ks:data",
+								 title="Data Summary Table", summary = TRUE,
+								 rownames = FALSE, nobs=TRUE)
+
+test_notes <- paste("one sample, two sided, normal; alpha 0.05; D alpha: ", round(D_alpha,5))
+
+output_stargazer("ks.tex", ks_results, type = "latex", appendVal = TRUE,
+								 label = "tab:ks:results",
+								 table.placement = "!htbp",
+								 summary = FALSE, flip = TRUE, digits = 5,
+								 object.names = TRUE,
+								 title = "Kolmogorov-Smirnov Test results",
+								 notes = test_notes,
+								 covariate.labels = c(" ", "value" )
+)
+
+
 # Tue Feb  7 17:06:15 2023 ------------------------------
 # check against built in KS implementations
 #require(KSgeneral)
 
 #https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test
-KSgeneral::cont_ks_c_cdf(ks_results$Dval, N)
+KSgeneral::cont_ks_c_cdf(ks_results$D, N)
 KSgeneral::cont_ks_test(data, "pnorm")
 
 ks.test(data, "pnorm", )
@@ -247,7 +247,7 @@ data2$y <- 0 + 2.75*data2$x + rnorm(200, 0, 1.5)
 
 pd <-ggplot(data2, aes(x = y)) + geom_dotplot(aes()) + theme_minimal()
 pd
-pp <- ggplot(data2, aes(x, y)) + geom_point(size=1) +
+pp <- ggplot(data2, aes(x, y)) + geom_point(size=0.8, colour = "blue") +
 	plot_annotation(title = "y ~ x") & theme_minimal()
 pp
 ggsave("graphics/q2_xy.png")
@@ -267,7 +267,7 @@ ggsave("graphics/q2_data.png")
 
 
 # from Jeff's notes
-# define function to be solved for maximum by optim
+# define likelihood function to be solved by optim
 linear.lik <- function(theta, y, X){
 	n <- nrow(X )
 	k <- ncol(X )
@@ -368,19 +368,9 @@ sd(data2$x)
 #https://colinfay.me/intro-to-r/statistical-models-in-r.html
 #https://stackoverflow.com/questions/66906859/how-to-use-optim-to-produce-coefficient-estimates-for-a-generalized-linear-mod
 
-
-
-#----------------------------------------------------------------------
-
 #https://www.analyticsvidhya.com/blog/2018/07/introductory-guide-maximum-likelihood-estimation-case-study-r/
 
-
-#png(filename = "graphics/q2_hist.png")
-#hist(data2$y, breaks = 15,probability = T ,
-#     main = "Histogram of y Variable")
-#lines(density(data2$y), col="red", lwd=2)
-#dev.off()
-
+#----------------------------------------------------------------------
 
 #  Ex: Normal MLE
 #  This function, at different values of β and σ, creates a surface
@@ -404,75 +394,3 @@ pdf("./graphics/wireframe.pdf", width = 9 )
 wireframe(logL ~ beta * sigma, surface, shade = TRUE )
 dev.off()
 
-# Fri Feb 10 22:02:49 2023 ------------------------------
-
-x <- c(1.6907, 1.7242, 1.7552, 1.7842, 1.8113,
-			 1.8369, 1.8610, 1.8839)
-y <- c( 6, 13, 18, 28, 52, 53, 61, 60)
-n <- c(59, 60, 62, 56, 63, 59, 62, 60)
-
-fn <- function(p) {
-	sum(-(y*(p[1]+p[2]*x ) - n*log(1+exp(p[1]+p[2]*x))+ log(choose(n,y))))
-}
-
-out <- nlm(fn, p=c(-50,20), hessian = TRUE)
-
-out$code
-out$estimate
-
-out <- nlm(f=linear.lik, p=c(1,1,1), hessian = TRUE,
-					 y = data2$y, X= cbind(1, data2$x))
-out
-
-neg.LL <- function(p=c(0,0)) with(data2, {
-	eta <- p[1] + p[2]*x
-	sd_val <- sqrt(sum((x-eta)^2)/length(x))
-	- sum(dnorm(y, mean = eta, sd=sd_val, log = FALSE))
-})
-opt<- optim(c(0,0), neg.LL, method="BFGS")
-opt
-# compare to linear model
-fm <- lm(y~x, data = data2)
-fm
-#opt<- optim(coef(fm), neg.LL, method="BFGS")
-opt
-coef(fm)
-
-
-# Fri Feb 10 22:28:26 2023 ------------------------------
-
-#beta <- 2.7
-#sigma <- sqrt(1.3 )
-#ex_data <- data.frame(x = runif(200, 1, 10))
-#ex_data$y <- 0 + beta * ex_data$x + rnorm(200, 0, sigma )
-
-#data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
-#ggsave("graphics/mle_data.png")
-
-#pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
-#plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
-#dev.off()
-
-# Fri Feb 10 22:29:14 2023 ------------------------------
-4# Newton-Raphson solution + Fisher scoring
-#library
-# gives more information on models
-require(olsrr)
-ols2 <- olsrr(y~x, data = data, family = quasi )
-
-
-MLE <- optim(c(0,0), fn = neg.LL, control=(list(fnscale = -1)),
-						 hessian = T)
-
-# Fri Feb 10 22:31:49 2023 ------------------------------
-
-
-library(bbmle)
-m<-mle2(neg.LL,start=list(),data=data2)
-stargazer::stargazer(fm, type="text")
-stargazer::stargazer(ols, type="text")
-output_stargazer(opt)
-
-# coef(fm)
-#(Intercept)           x
-#0.1391874   2.7266985

@@ -18,7 +18,7 @@ detachAllPackages()
 # load libraries
 pkgTest <- function(pkg){
   new.pkg <- pkg[!(pkg %in% installed.packages()[,  "Package"])]
-  if (length(new.pkg)) 
+  if (length(new.pkg))
     install.packages(new.pkg,  dependencies = TRUE)
   sapply(pkg,  require,  character.only = TRUE)
 }
@@ -63,10 +63,10 @@ options(prompt = "# ")
 #which generally requires approximation methods (see Marsaglia, Tsang, and Wang 2003).
 #This so-called non-parametric test (this label comes from the fact that the distribution of
 #the test statistic does not depend on the distribution of the data being tested) performs
-#poorly in small samples, but works well in a simulation environment. 
+#poorly in small samples, but works well in a simulation environment.
 #Write an R function that implements this test where the reference distribution is normal.
-#Using R generate 1,000 Cauchy random variables (rcauchy(1000, location = 0, scale = 1)) and 
-#perform the test (remember, use the same seed, something like set.seed(123), whenever you're 
+#Using R generate 1,000 Cauchy random variables (rcauchy(1000, location = 0, scale = 1)) and
+#perform the test (remember, use the same seed, something like set.seed(123), whenever you're
 #generating your own data).
 
 # create empirical distribution of observed data
@@ -94,7 +94,7 @@ kolmogorov_smirnov <- function (dat)  {
   D <- max(abs(empiricalCDF - pnorm(dat)))
   Dmin <- min(empiricalCDF - pnorm(dat))
   Dmax <- max(empiricalCDF - pnorm(dat))
-  
+
   #calculate critical value
   K <- D * sqrt(N)
 
@@ -104,9 +104,9 @@ kolmogorov_smirnov <- function (dat)  {
   #calculate q value for P(K)
   qval <- sum(exp(-1*((2*k - 1)^2)*(pi^2)/(8 * K^2)))
   qval <- qval * sqrt(2 * pi) * (1/K)
-  
+
   # return results
-  res <- tibble('Dval'= D, 'Dmax' = Dmax, 'Dmin' = Dmin, 
+  res <- tibble('Dval'= D, 'Dmax' = Dmax, 'Dmin' = Dmin,
     'Kval'=K, 'pval'=1-qval)
   return(res)
 }
@@ -115,8 +115,8 @@ ks_results <-kolmogorov_smirnov(data)
 print(ks_results)
 
 #p < 0.05 so we reject null hypothesis
-# ie evidence does not support the hypothesis that the 
-# sample data is from 
+# ie evidence does not support the hypothesis that the
+# sample data is from
 
 #https://www.statisticshowto.com/kolmogorov-smirnov-test/
 #K-S Test P-Value Table
@@ -128,8 +128,8 @@ K_alpha <-1.36 / sqrt(N)
 
 # output
 
-summary(empiricalCDF) 
-  
+summary(empiricalCDF)
+
 require(stargazer)
 stargazer(df[,2:3], type = "latex", label = "tab:ks:data", out = "ks_data.tex",
           title="Data Summary Table", summary = TRUE,
@@ -138,7 +138,7 @@ stargazer(df[,2:3], type = "latex", label = "tab:ks:data", out = "ks_data.tex",
 ks_output <- ks_results
 ks_output$k_alpha <- K_alpha
 stargazer(ks_output, type = "latex", out="ks_results.tex", label = "tab:ks:results",
-          title="Kolmogorov-Smirnov Test results - one sample", 
+          title="Kolmogorov-Smirnov Test results - one sample",
           summary = FALSE, flip = TRUE, digits = 5,
           object.names = TRUE,
           dep.var.caption = "Kolmogorov-Smirnov Test results - one sample",
@@ -195,7 +195,7 @@ pks <- function (dat)  {
   #calculate critical value
   K <- D * sqrt(N)
   x <- K
-  
+
   pval <- sum(exp(-1*((2*k - 1)^2)*(pi^2)/(8 * x^2)))
   pval <- pval * sqrt(2 * pi) * (1/x)
   return(pval)
@@ -259,7 +259,7 @@ pkolmim <- function(x, N){
 # Problem 2
 #####################
 #Estimate an OLS regression in R that uses the Newton-Raphson algorithm (specically BFGS,
-#which is a quasi-Newton method), and 
+#which is a quasi-Newton method), and
 #show that you get the equivalent results to using lm.
 #Use the code below to create your data.
 set.seed (123)
@@ -279,14 +279,14 @@ ggplot(data2, aes(x, y)) + geom_point()
 
 ols <- glm(y~x, data = data2, family = "gaussian")
 coef(ols)
-#(Intercept)           x 
-#1.6159588   0.1820778 
+#(Intercept)           x
+#1.6159588   0.1820778
 
 
 
 #dnorm(x, mean = 0, sd = 1, log = FALSE)
 neg.LL <- function(p=c(0,0)) with(data2, {
-  eta <- p[1] + p[2]*x 
+  eta <- p[1] + p[2]*x
   sd_val <- sqrt(sum((x-eta)^2)/length(x))
   - sum(dnorm(y, mean = eta, sd=sd_val, log = FALSE))
 })
@@ -309,8 +309,8 @@ stargazer::stargazer(ols, type="text")
 output_stargazer(opt)
 
 # coef(fm)
-#(Intercept)           x 
-#0.1391874   2.7266985 
+#(Intercept)           x
+#0.1391874   2.7266985
 
 #-----------------------------------
 f <- function(x) sum((x-1:length(x))^2)
@@ -352,3 +352,75 @@ MLE <- optim(c(0,0), fn = neg.LL, control=(list(fnscale = -1)),
 
 library(caTools)
 
+# Fri Feb 10 22:02:49 2023 ------------------------------
+
+x <- c(1.6907, 1.7242, 1.7552, 1.7842, 1.8113,
+			 1.8369, 1.8610, 1.8839)
+y <- c( 6, 13, 18, 28, 52, 53, 61, 60)
+n <- c(59, 60, 62, 56, 63, 59, 62, 60)
+
+fn <- function(p) {
+	sum(-(y*(p[1]+p[2]*x ) - n*log(1+exp(p[1]+p[2]*x))+ log(choose(n,y))))
+}
+
+out <- nlm(fn, p=c(-50,20), hessian = TRUE)
+
+out$code
+out$estimate
+
+out <- nlm(f=linear.lik, p=c(1,1,1), hessian = TRUE,
+					 y = data2$y, X= cbind(1, data2$x))
+out
+
+neg.LL <- function(p=c(0,0)) with(data2, {
+	eta <- p[1] + p[2]*x
+	sd_val <- sqrt(sum((x-eta)^2)/length(x))
+	- sum(dnorm(y, mean = eta, sd=sd_val, log = FALSE))
+})
+opt<- optim(c(0,0), neg.LL, method="BFGS")
+opt
+# compare to linear model
+fm <- lm(y~x, data = data2)
+fm
+#opt<- optim(coef(fm), neg.LL, method="BFGS")
+opt
+coef(fm)
+
+
+# Fri Feb 10 22:28:26 2023 ------------------------------
+
+#beta <- 2.7
+#sigma <- sqrt(1.3 )
+#ex_data <- data.frame(x = runif(200, 1, 10))
+#ex_data$y <- 0 + beta * ex_data$x + rnorm(200, 0, sigma )
+
+#data2 %>% ggplot(aes(x=x, y=y)) + geom_point()
+#ggsave("graphics/mle_data.png")
+
+#pdf("./graphics/normal_mle_ex.pdf ", width = 9 )
+#plot(data2$x, data2$y, ylab = 'Y', xlab = 'X')
+#dev.off()
+
+# Fri Feb 10 22:29:14 2023 ------------------------------
+# Newton-Raphson solution + Fisher scoring
+#library
+# gives more information on models
+require(olsrr)
+ols2 <- olsrr(y~x, data = data, family = quasi )
+
+
+MLE <- optim(c(0,0), fn = neg.LL, control=(list(fnscale = -1)),
+						 hessian = T)
+
+# Fri Feb 10 22:31:49 2023 ------------------------------
+
+
+library(bbmle)
+m<-mle2(neg.LL,start=list(),data=data2)
+stargazer::stargazer(fm, type="text")
+stargazer::stargazer(ols, type="text")
+output_stargazer(opt)
+
+# coef(fm)
+#(Intercept)           x
+#0.1391874   2.7266985
