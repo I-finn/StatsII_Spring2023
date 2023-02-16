@@ -33,6 +33,10 @@
 \usepackage{listings}
 \usepackage{color}
 
+\usepackage{verbatim}
+%\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -78,14 +82,24 @@
 	
 	%	\vspace{.25cm}
 	
-%\noindent In this problem set, you will run several regressions and create an add variable plot (see the lecture slides) in \texttt{R} using the \texttt{incumbents\_subset.csv} dataset. Include all of your code.
+	Code in \texttt{PS2\_ImeldaFinn.R}
 
-	\vspace{.25cm}
 %\section*{Question 1} %(20 points)}
 %\vspace{.25cm}
 \noindent We're interested in what types of international environmental agreements or policies people support (\href{https://www.pnas.org/content/110/34/13763}{Bechtel and Scheve 2013)}. So, we asked 8,500 individuals whether they support a given policy, and for each participant, we vary the (1) number of countries that participate in the international agreement and (2) sanctions for not following the agreement. \\
 
 \noindent Load in the data labeled \texttt{climateSupport.csv} on GitHub, which contains an observational study of 8,500 observations.
+
+  \begin{lstlisting}[language=R]
+    load(url("https://github.com/ASDS-TCD/StatsII_Spring2023/blob/main/datasets/climateSupport.RData?raw=true"))
+
+    # choice = 1,2
+    # countries = 1, 2, 3
+    # sanctions = 1, 2, 3, 4
+
+    csFacs <- climateSupport
+    csFacs$choice <- relevel(csFacs$choice, "Supported")
+  \end{lstlisting}
 
 \begin{itemize}
 	\item
@@ -105,18 +119,82 @@
 	
 \end{itemize}
 
-\newpage
+%\newpage
 \noindent Please answer the following questions:
 
 \begin{enumerate}
 	\item
 	Remember, we are interested in predicting the likelihood of an individual supporting a policy based on the number of countries participating and the possible sanctions for non-compliance.
 	\begin{enumerate}
-		\item [] Fit an additive model. Provide the summary output, the global null hypothesis, and $p$-value. Please describe the results and provide a conclusion.
-		%\item
-		%How many iterations did it take to find the maximum likelihood estimates?
+		\item [] Fit an additive model. 
+      \lstinputlisting[language=R, firstline=95, lastline=95]{PS2_ImeldaFinn.R}
+		
+		\item Provide the summary output, 
+
+    \begin{lstlisting}
+    Call:
+    glm(formula = choice ~ ., family = binomial(link = "logit"), data = csFacs)
+
+    Deviance Residuals: 
+        Min       1Q   Median       3Q      Max  
+    -1.4259  -1.1480  -0.9444   1.1505   1.4298  
+
+    Coefficients:
+                 Estimate Std. Error z value Pr(>|z|)    
+    (Intercept) -0.005665   0.021971  -0.258 0.796517    
+    countries.L  0.458452   0.038101  12.033  < 2e-16 ***
+    countries.Q -0.009950   0.038056  -0.261 0.793741    
+    sanctions.L -0.276332   0.043925  -6.291 3.15e-10 ***
+    sanctions.Q -0.181086   0.043963  -4.119 3.80e-05 ***
+    sanctions.C  0.150207   0.043992   3.414 0.000639 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    (Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 11783  on 8499  degrees of freedom
+    Residual deviance: 11568  on 8494  degrees of freedom
+    AIC: 11580
+
+    Number of Fisher Scoring iterations: 4
+
+    \end{lstlisting}
+		
+		\item the global null hypothesis:
+		
+		$H_0$: the explanatory variables have no effect on the likelihood of an individual supporting a policy
+		
+		$H_a$: one or more of the explanatory variables have some effect on the likelihood of an individual supporting a policy
+
+    $\alpha = 0.05$
+    
+		\item and $p$-value. 
+      The model was run with no explanatory variables (dummy... TODO).  The comparison of the two models is shown in ~\ref{tab:glm:null}
+
+%	    \include{tables/glm_null.tex}
+%	    \include{tables/anova.tex}
+			\include{tables/glm_null_anova.tex}
+
+		\item  Please describe the results and provide a conclusion.
+
+      Table~\ref{tab:CIs}
+      
+      The $e^{\beta_k}$s are all non-zero and the $5\%$ Confidence Intervals do not include 0.(Table~\ref{tab:CIs}).
+      
+      The estimates for $\beta_k$ are all significant at $p=0.01$ except for \texttt{countries.Q}, ie there is no significant difference in likelihood going from 80 to 160 countries.
+      
+	    \include{tables/intervals.tex}
+
+		It took 4 iterations to find the maximum likelihood estimates.
+		
+		the log likelihood is -5,784.130
 	\end{enumerate}
+
+%\begin{verbatim}
+
+%\end{verbatim}
 	
+
 	\item
 	If any of the explanatory variables are significant in this model, then:
 	\begin{enumerate}
@@ -130,6 +208,11 @@
 		Would the answers to 2a and 2b potentially change if we included the interaction term in this model? Why? 
 		\begin{itemize}
 			\item Perform a test to see if including an interaction is appropriate.
+			
+			  \include{tables/glm_int.tex}
+    	  \include{tables/anovas.tex}
+    	  %\include{tables/all.tex}
+
 		\end{itemize}
 	\end{enumerate}
 	\end{enumerate}
