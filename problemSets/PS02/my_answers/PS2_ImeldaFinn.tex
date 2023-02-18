@@ -73,8 +73,8 @@
 	\maketitle
 	\section*{Instructions}
 	\begin{itemize}
-		\item Please show your work! You may lose points by simply writing in the answer. If the problem requires you to execute commands in \texttt{R}, please include the code you used to get your answers. Please also include the \texttt{.R} file that contains your code. If you are not sure if work needs to be shown for a particular problem, please ask.
-		\item Your homework should be submitted electronically on GitHub in \texttt{.pdf} form.
+%		\item Please show your work! You may lose points by simply writing in the answer. If the problem requires you to execute commands in \texttt{R}, please include the code you used to get your answers. Please also include the \texttt{.R} file that contains your code. If you are not sure if work needs to be shown for a particular problem, please ask.
+%		\item Your homework should be submitted electronically on GitHub in \texttt{.pdf} form.
 		\item This problem set is due before 23:59 on Sunday February 19, 2023. No late assignments will be accepted.
 	%	\item Total available points for this homework is 80.
 	\end{itemize}
@@ -85,30 +85,18 @@
 	Code in \texttt{PS2\_ImeldaFinn.R}
 
 %\section*{Question 1} %(20 points)}
-%\vspace{.25cm}
+\vspace{.25cm}
 \noindent We're interested in what types of international environmental agreements or policies people support (\href{https://www.pnas.org/content/110/34/13763}{Bechtel and Scheve 2013)}. So, we asked 8,500 individuals whether they support a given policy, and for each participant, we vary the (1) number of countries that participate in the international agreement and (2) sanctions for not following the agreement. \\
 
-\noindent Load in the data labeled \texttt{climateSupport.csv} on GitHub, which contains an observational study of 8,500 observations.
-
-  \begin{lstlisting}[language=R]
-    load(url("https://github.com/ASDS-TCD/StatsII_Spring2023/blob/main/datasets/climateSupport.RData?raw=true"))
-
-    # choice = 1,2
-    # countries = 1, 2, 3
-    # sanctions = 1, 2, 3, 4
-
-    csFacs <- climateSupport
-    csFacs$choice <- relevel(csFacs$choice, "Supported")
-  \end{lstlisting}
+%\noindent Load in the data labeled \texttt{climateSupport.csv} on GitHub, which contains an .
 
 \begin{itemize}
-	\item
-	Response variable: 
+  \item observational study of 8,500 observations
+	\item Response variable: 
 	\begin{itemize}
 		\item \texttt{choice}: 1 if the individual agreed with the policy; 0 if the individual did not support the policy
 	\end{itemize}
-	\item
-	Explanatory variables: 
+	\item Explanatory variables: 
 	\begin{itemize}
 		\item
 		\texttt{countries}: Number of participating countries [20 of 192; 80 of 192; 160 of 192]
@@ -119,48 +107,78 @@
 	
 \end{itemize}
 
-%\newpage
-\noindent Please answer the following questions:
+  Read in the data and modified \texttt{choice} variable:
+  
+    \begin{lstlisting}[language=R]
+    load(url("https://github.com/ASDS-TCD/StatsII_Spring2023/blob/main/datasets/climateSupport.RData?raw=true"))
+    # choice = 1,2
+    # countries = 1, 2, 3
+    # sanctions = 1, 2, 3, 4
+
+    # get a version of the dataset with the response variable coded as 
+    # True = supported
+    # False = not supported
+    cs <- climateSupport
+    cs$choice <- as.logical(as.numeric(cs$choice)-1) 
+    
+    summary(cs)
+    ...
+    
+       choice             countries    sanctions  
+    Mode :logical   20 of 192 :2865   None:2119  
+    FALSE:4264      80 of 192 :2795   5%  :2133  
+    TRUE :4236      160 of 192:2840   15% :2111  
+                                      20% :2137  
+  \end{lstlisting}
+
+%\noindent Please answer the following questions:
 
 \begin{enumerate}
 	\item
 	Remember, we are interested in predicting the likelihood of an individual supporting a policy based on the number of countries participating and the possible sanctions for non-compliance.
 	\begin{enumerate}
 		\item [] Fit an additive model. 
-      \lstinputlisting[language=R, firstline=95, lastline=95]{PS2_ImeldaFinn.R}
+
+      \lstinputlisting[language=R, firstline=105, lastline=105]{PS2_ImeldaFinn.R}
 		
-		\item Provide the summary output, 
+		\item Summary output, 
 
-    \begin{lstlisting}
-    Call:
-    glm(formula = choice ~ ., family = binomial(link = "logit"), data = csFacs)
+    \begin{lstlisting}[language=R]
 
-    Deviance Residuals: 
-        Min       1Q   Median       3Q      Max  
-    -1.4259  -1.1480  -0.9444   1.1505   1.4298  
+      Call:
+      glm(formula = choice ~ ., family = binomial(link = "logit"), 
+          data = cs)
 
-    Coefficients:
-                 Estimate Std. Error z value Pr(>|z|)    
-    (Intercept) -0.005665   0.021971  -0.258 0.796517    
-    countries.L  0.458452   0.038101  12.033  < 2e-16 ***
-    countries.Q -0.009950   0.038056  -0.261 0.793741    
-    sanctions.L -0.276332   0.043925  -6.291 3.15e-10 ***
-    sanctions.Q -0.181086   0.043963  -4.119 3.80e-05 ***
-    sanctions.C  0.150207   0.043992   3.414 0.000639 ***
-    ---
-    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+      Deviance Residuals: 
+          Min       1Q   Median       3Q      Max  
+      -1.4259  -1.1480  -0.9444   1.1505   1.4298  
 
-    (Dispersion parameter for binomial family taken to be 1)
+      Coefficients:
+                   Estimate Std. Error z value Pr(>|z|)    
+      (Intercept) -0.005665   0.021971  -0.258 0.796517    
+      countries.L  0.458452   0.038101  12.033  < 2e-16 ***
+      countries.Q -0.009950   0.038056  -0.261 0.793741    
+      sanctions.L -0.276332   0.043925  -6.291 3.15e-10 ***
+      sanctions.Q -0.181086   0.043963  -4.119 3.80e-05 ***
+      sanctions.C  0.150207   0.043992   3.414 0.000639 ***
+      ---
+      Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-    Null deviance: 11783  on 8499  degrees of freedom
-    Residual deviance: 11568  on 8494  degrees of freedom
-    AIC: 11580
+      (Dispersion parameter for binomial family taken to be 1)
 
-    Number of Fisher Scoring iterations: 4
+          Null deviance: 11783  on 8499  degrees of freedom
+      Residual deviance: 11568  on 8494  degrees of freedom
+      AIC: 11580
 
+      Number of Fisher Scoring iterations: 4
     \end{lstlisting}
-		
-		\item the global null hypothesis:
+    \begin{figure}[!htbp]
+	    \includegraphics[width=0.85\textwidth]{graphics/wireframe.png}
+	    \caption{plot of additive (glm) model}
+	    \label{fig:glm}
+	\end{figure}
+
+		\item The global null hypothesis and $p$-value. 
 		
 		$H_0$: the explanatory variables have no effect on the likelihood of an individual supporting a policy
 		
@@ -168,32 +186,62 @@
 
     $\alpha = 0.05$
     
-		\item and $p$-value. 
-      The model was run with no explanatory variables (dummy... TODO).  The comparison of the two models is shown in ~\ref{tab:glm:null}
+    The data was modelled with no explanatory variables ($choice \tilde~1$). %TODO
+    The comparison of the two models is shown in ~\ref{tab:glm:null}
+      \lstinputlisting[language=R, firstline=131, lastline=131]{PS2_ImeldaFinn.R}
 
-%	    \include{tables/glm_null.tex}
-%	    \include{tables/anova.tex}
+      A test was run to compare the deviances of the two models.
+      
+      \lstinputlisting[language=R, firstline=136, lastline=136]{PS2_ImeldaFinn.R}
+      The results are shown in ~\ref{tab:anova}.  
+      The $\chi^2$ statistic = $11783 - 11568 = 215.15$. The assocated p-value with 5 degrees of freedom is $2.2\times 10^{-16}$.  
+      
+      As the p-value is below $\alpha$ we reject the null hypothesis.  The evidence does not support the assumption that none of the explanatory variables have any effect on our response variable \texttt{choice}.  We expect that one or more of our explanatory variables will have a statistically significant effect on the probability of a policy being supported.
+
 			\include{tables/glm_null_anova.tex}
 
 		\item  Please describe the results and provide a conclusion.
+		
+		When 20 out of 192 countries are included and there are no sanctions (base case), then the expected odds of a participant agreeing with a policy are $e^{-0.005665} = 0.994351$ 
+		
+		A one unit increase in $X_k$ increases the odds of supporting a policy by a multiplicative factor of $e^{\beta_k}$
 
-      Table~\ref{tab:CIs}
+    When 20 out of 192 countries are included and there are sanctions of 5\%, the logodds change by $e^{-0.276332} = 0.758561$ compared to the base
+    
+    $logit(p) = -0.005665 + -0.276332 $
+
+    When 80 out of 192 countries are included and there are no sanctions, the logodds change by $e^{-0.458453} = 0.632261$ compared to the base
+    
+    $logit(p) = -0.005665  -0.458453 $
+
+    When 80 out of 192 countries are included and there are sanctions of 5\%, then:
+  
+    $logit(p) = -0.005665 + -0.276332  -0.458453 = $%exp(-0.005665) *exp(-0.276332) *exp(-0.458453)$
+    
+    $e^{logit(p)} = 0.4768993$
+
+    ie the odds reduce by 48.0\%.
+    
+    
+    The predicted probabilities, and confidence intervals, are in Table~\ref{tab:pred}
       
-      The $e^{\beta_k}$s are all non-zero and the $5\%$ Confidence Intervals do not include 0.(Table~\ref{tab:CIs}).
+%      The $e^{\beta_k}$s are all non-zero and the $5\%$ Confidence Intervals do not include 0.(Table~\ref{tab:CIs}).
       
-      The estimates for $\beta_k$ are all significant at $p=0.01$ except for \texttt{countries.Q}, ie there is no significant difference in likelihood going from 80 to 160 countries.
+      The estimates for $\beta_k$ are all significant at $p=0.01$ except for  `countries: 160 of 192' (\texttt{countries.Q}), 
+      ie there is a predicted -0.1 change in $logit$ going from 80 to 160 countries, but it is not statistically significant.
       
-	    \include{tables/intervals.tex}
+	    \include{tables/predicted.tex}
+      \begin{figure}[!htbp]
+  	    \includegraphics[width=0.8\textwidth]{graphics/coefficients.png}
+  	    \caption{coefficients of additive model}
+  	    \label{fig:coefs}
+	    \end{figure}
 
 		It took 4 iterations to find the maximum likelihood estimates.
 		
-		the log likelihood is -5,784.130
+		The log likelihood is -5,784.130
 	\end{enumerate}
 
-%\begin{verbatim}
-
-%\end{verbatim}
-	
 
 	\item
 	If any of the explanatory variables are significant in this model, then:
@@ -205,13 +253,29 @@
 		\item
 		What is the estimated probability that an individual will support a policy if there are 80 of 192 countries participating with no sanctions? 
 		\item
-		Would the answers to 2a and 2b potentially change if we included the interaction term in this model? Why? 
+		%Would the answers to 2a and 2b potentially change if we included the interaction term in this model? Why? 
+		
+		Including an interaction term would potentially change the results in 2a and 2b.  The values for the coefficients would potentially be different (eg $beta_{k}$) and we would have to include the constituent coefficient values in calculating the value of the logit.
+		
 		\begin{itemize}
-			\item Perform a test to see if including an interaction is appropriate.
+		%Perform a test to see ifincluding an interaction is appropriate.
+
+			\item A model was run on the data, with an interaction between \texttt{countries} and \texttt{sanctions}, and an ANOVA/$\chi_2$ test was run.  The results are shown in Tables ~\ref{tab:int} and ~\ref{tab:anova:int}.
 			
-			  \include{tables/glm_int.tex}
-    	  \include{tables/anovas.tex}
-    	  %\include{tables/all.tex}
+			The test statistic of 6.2928, with 6 degrees of freedom, lead to a p-value of 0.3912.  Therefore we cannot reject the null hypothesis that the two models are the same, ie we do not conclude that an interaction term is appropriate.
+			
+%286
+      \lstinputlisting[language=R, firstline=278, lastline=281]{PS2_ImeldaFinn.R}
+
+      \begin{lstlisting}[language=R]
+      int_mod <- glm(choice ~countries + sanctions + countries * sanctions,
+               family = binomial(link="logit"), data = cs)
+
+      anova_int <- anova(mod, int_mod, test= "LRT")
+      \end{lstlisting}
+
+		  \include{tables/int_model.tex}
+		  \include{tables/int_anova.tex}
 
 		\end{itemize}
 	\end{enumerate}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.11.2)  16 FEB 2023 21:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.11.2)  17 FEB 2023 23:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -684,18 +684,8 @@ Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 File: l3backend-pdftex.def 2022-09-28 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
 \l__pdf_internal_box=\box76
-) (PS2_ImeldaFinn.aux (tables/glm_null_anova.aux
-
-LaTeX Warning: Label `tab:null:anova' multiply defined.
-
-) (tables/intervals.aux) (tables/glm_int.aux) (tables/anovas.aux
-
-LaTeX Warning: Label `tab:anovas' multiply defined.
-
-
-LaTeX Warning: Label `tab:anovas' multiply defined.
-
-))
+) (PS2_ImeldaFinn.aux (tables/glm_null_anova.aux) (tables/predicted.aux) (table
+s/int_model.aux) (tables/int_anova.aux))
 \openout1 = `PS2_ImeldaFinn.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
@@ -760,8 +750,8 @@ Package hyperref Info: Link coloring OFF on input line 72.
 \openout7 = `PS2_ImeldaFinn.out'.
 
 \c@lstlisting=\count343
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
-6.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 8
+5.
 (C:\Install\MikTeX\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
@@ -779,80 +769,82 @@ File: lstlang3.sty 2020/03/24 1.8d listings language file
 
 {C:/Users/imeld/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 130.
+nput line 142.
 (PS2_ImeldaFinn.R
 consecutive:
-) [2]
-
-LaTeX Warning: Reference `tab:glm:null' on page 3 undefined on input line 172.
-
-
-Overfull \hbox (0.63217pt too wide) in paragraph at lines 171--173
-[]\T1/cmr/m/n/12 and $\OML/cmm/m/it/12 p$\T1/cmr/m/n/12 -value. The model was r
-un with no ex-plana-tory vari-ables (dummy... TODO).
- []
-
-[3]
+)
+<graphics/wireframe.png, id=30, 481.8pt x 481.8pt>
+File: graphics/wireframe.png Graphic file (type png)
+<use graphics/wireframe.png>
+Package pdftex.def Info: graphics/wireframe.png  used on input line 176.
+(pdftex.def)             Requested size: 399.29463pt x 399.30576pt.
+[2] [3 <./graphics/wireframe.png>] (PS2_ImeldaFinn.R
+consecutive:
+) (PS2_ImeldaFinn.R
+consecutive:
+) [4]
 \openout2 = `tables/glm_null_anova.aux'.
 
-(tables/glm_null_anova.tex) [4
+(tables/glm_null_anova.tex) [5
 
-] [5
+] [6
 
 
 ]
-\openout2 = `tables/intervals.aux'.
+\openout2 = `tables/predicted.aux'.
 
-(tables/intervals.tex
-Overfull \hbox (37.66948pt too wide) in paragraph at lines 7--20
+(tables/predicted.tex
+Overfull \hbox (32.11963pt too wide) in paragraph at lines 7--26
  [][] 
  []
 
-) [6
-
-] [7
-
+) [7
 
 ]
-\openout2 = `tables/glm_int.aux'.
-
-(tables/glm_int.tex
-
-LaTeX Warning: Float too large for page by 65.14963pt on input line 59.
-
-) [8]
-\openout2 = `tables/anovas.aux'.
-
-(tables/anovas.tex) [9
+<graphics/coefficients.png, id=124, 260.4129pt x 395.7987pt>
+File: graphics/coefficients.png Graphic file (type png)
+<use graphics/coefficients.png>
+Package pdftex.def Info: graphics/coefficients.png  used on input line 235.
+(pdftex.def)             Requested size: 375.80544pt x 571.1938pt.
+[8
 
 
+ <./graphics/coefficients.png>] (PS2_ImeldaFinn.R
+consecutive:
+) [9]
+\openout2 = `tables/int_model.aux'.
+
+(tables/int_model.tex
+
+LaTeX Warning: Float too large for page by 84.85185pt on input line 60.
+
+) [10]
+\openout2 = `tables/int_anova.aux'.
+
+(tables/int_anova.tex) [11
 
 
-] (PS2_ImeldaFinn.aux (tables/glm_null_anova.aux) (tables/intervals.aux) (table
-s/glm_int.aux) (tables/anovas.aux))
-
-LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
-
+] (PS2_ImeldaFinn.aux (tables/glm_null_anova.aux) (tables/predicted.aux) (table
+s/int_model.aux) (tables/int_anova.aux))
 Package rerunfilecheck Info: File `PS2_ImeldaFinn.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27517 strings out of 475385
- 480484 string characters out of 2789570
- 1213898 words of memory out of 3000000
- 48294 multiletter control sequences out of 15000+600000
+ 27577 strings out of 475385
+ 481847 string characters out of 2789570
+ 1333992 words of memory out of 3000000
+ 48316 multiletter control sequences out of 15000+600000
  485775 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,10n,89p,3334b,1866s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 84i,10n,89p,3334b,2675s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti
 1200.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecbx1200.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
-/dpi600\tcrm1000.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
-pen/ec/dpi600\ecrm1000.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/
+0\tcrm1000.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecrm1000.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ecrm0600.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fonts/pk/
 ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\imeld\AppData\Local\MiKTeX\fon
 ts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\imeld\AppData\Local\MiKT
 eX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\imeld\AppData\Loca
@@ -865,9 +857,9 @@ m/cmmi8.pfb><C:/Install/MikTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Ins
 tall/MikTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Install/MikTeX/fonts/ty
 pe1/public/amsfonts/cm/cmsy10.pfb><C:/Install/MikTeX/fonts/type1/public/amsfont
 s/cm/cmsy8.pfb>
-Output written on PS2_ImeldaFinn.pdf (9 pages, 171185 bytes).
+Output written on PS2_ImeldaFinn.pdf (11 pages, 231080 bytes).
 PDF statistics:
- 437 PDF objects out of 1000 (max. 8388607)
- 66 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 484 PDF objects out of 1000 (max. 8388607)
+ 94 named destinations out of 1000 (max. 500000)
+ 23 words of extra memory for PDF output out of 10000 (max. 10000000)
 

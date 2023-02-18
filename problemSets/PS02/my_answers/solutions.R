@@ -118,6 +118,7 @@ predicted_data <- within(predicted_data,
                           UL <- plogis(fit + (1.96 * se.fit))
                           })
 
+predicted_data
 # As an alternative to coercing an interval variable as a factor, with one 
 # level for each unique value, we can "bin" the variable into a smaller number 
 # of categories using cut()
