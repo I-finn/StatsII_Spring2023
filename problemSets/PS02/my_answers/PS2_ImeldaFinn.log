@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.11.2)  17 FEB 2023 23:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.11.2)  19 FEB 2023 23:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -768,60 +768,68 @@ File: lstlang3.sty 2020/03/24 1.8d listings language file
 ) [1
 
 {C:/Users/imeld/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+<graphics/cs.pdf, id=30, 505.89pt x 505.89pt>
+File: graphics/cs.pdf Graphic file (type pdf)
+<use graphics/cs.pdf>
+Package pdftex.def Info: graphics/cs.pdf  used on input line 134.
+(pdftex.def)             Requested size: 399.29463pt x 399.30135pt.
+[2 <./graphics/cs.pdf>]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 142.
+nput line 147.
 (PS2_ImeldaFinn.R
 consecutive:
 )
-<graphics/wireframe.png, id=30, 481.8pt x 481.8pt>
+<graphics/wireframe.png, id=55, 481.8pt x 481.8pt>
 File: graphics/wireframe.png Graphic file (type png)
 <use graphics/wireframe.png>
-Package pdftex.def Info: graphics/wireframe.png  used on input line 176.
+Package pdftex.def Info: graphics/wireframe.png  used on input line 181.
 (pdftex.def)             Requested size: 399.29463pt x 399.30576pt.
-[2] [3 <./graphics/wireframe.png>] (PS2_ImeldaFinn.R
+(PS2_ImeldaFinn.R
 consecutive:
 ) (PS2_ImeldaFinn.R
 consecutive:
-) [4]
+[3
+
+] [4 <./graphics/wireframe.png>]) [5]
 \openout2 = `tables/glm_null_anova.aux'.
 
-(tables/glm_null_anova.tex) [5
+(tables/glm_null_anova.tex) [6
 
-] [6
+] [7
 
 
 ]
 \openout2 = `tables/predicted.aux'.
 
 (tables/predicted.tex
-Overfull \hbox (32.11963pt too wide) in paragraph at lines 7--26
+Overfull \hbox (55.61938pt too wide) in paragraph at lines 7--26
  [][] 
  []
 
-) [7
+) [8
 
 ]
-<graphics/coefficients.png, id=124, 260.4129pt x 395.7987pt>
+<graphics/coefficients.png, id=136, 260.4129pt x 395.7987pt>
 File: graphics/coefficients.png Graphic file (type png)
 <use graphics/coefficients.png>
-Package pdftex.def Info: graphics/coefficients.png  used on input line 235.
+Package pdftex.def Info: graphics/coefficients.png  used on input line 237.
 (pdftex.def)             Requested size: 375.80544pt x 571.1938pt.
-[8
+[9
 
 
  <./graphics/coefficients.png>] (PS2_ImeldaFinn.R
 consecutive:
-) [9]
+) [10]
 \openout2 = `tables/int_model.aux'.
 
 (tables/int_model.tex
 
 LaTeX Warning: Float too large for page by 84.85185pt on input line 60.
 
-) [10]
+) [11]
 \openout2 = `tables/int_anova.aux'.
 
-(tables/int_anova.tex) [11
+(tables/int_anova.tex) [12
 
 
 
@@ -832,10 +840,10 @@ Package rerunfilecheck Info: File `PS2_ImeldaFinn.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 27577 strings out of 475385
- 481847 string characters out of 2789570
- 1333992 words of memory out of 3000000
- 48316 multiletter control sequences out of 15000+600000
+ 27588 strings out of 475385
+ 482027 string characters out of 2789570
+ 1266034 words of memory out of 3000000
+ 48324 multiletter control sequences out of 15000+600000
  485775 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,10n,89p,3334b,2675s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -857,9 +865,9 @@ m/cmmi8.pfb><C:/Install/MikTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Ins
 tall/MikTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Install/MikTeX/fonts/ty
 pe1/public/amsfonts/cm/cmsy10.pfb><C:/Install/MikTeX/fonts/type1/public/amsfont
 s/cm/cmsy8.pfb>
-Output written on PS2_ImeldaFinn.pdf (11 pages, 231080 bytes).
+Output written on PS2_ImeldaFinn.pdf (12 pages, 239527 bytes).
 PDF statistics:
- 484 PDF objects out of 1000 (max. 8388607)
- 94 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 498 PDF objects out of 1000 (max. 8388607)
+ 96 named destinations out of 1000 (max. 500000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 

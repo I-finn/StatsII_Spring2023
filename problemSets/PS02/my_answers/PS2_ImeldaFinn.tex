@@ -130,7 +130,12 @@
     TRUE :4236      160 of 192:2840   15% :2111  
                                       20% :2137  
   \end{lstlisting}
-
+  \begin{figure}[!htbp]
+	    \includegraphics[width=0.85\textwidth]{graphics/cs.pdf}
+	    \caption{Climate Support Data}
+	    \label{fig:cs}
+	\end{figure}
+  \clearpage
 %\noindent Please answer the following questions:
 
 \begin{enumerate}
@@ -139,7 +144,7 @@
 	\begin{enumerate}
 		\item [] Fit an additive model. 
 
-      \lstinputlisting[language=R, firstline=105, lastline=105]{PS2_ImeldaFinn.R}
+      \lstinputlisting[language=R, firstline=109, lastline=109]{PS2_ImeldaFinn.R}
 		
 		\item Summary output, 
 
@@ -174,7 +179,7 @@
     \end{lstlisting}
     \begin{figure}[!htbp]
 	    \includegraphics[width=0.85\textwidth]{graphics/wireframe.png}
-	    \caption{plot of additive (glm) model}
+	    \caption{plot of additive model}
 	    \label{fig:glm}
 	\end{figure}
 
@@ -186,13 +191,13 @@
 
     $\alpha = 0.05$
     
-    The data was modelled with no explanatory variables ($choice \tilde~1$). %TODO
+    The data was modelled with no explanatory variables ($choice \sim 1$).
     The comparison of the two models is shown in ~\ref{tab:glm:null}
-      \lstinputlisting[language=R, firstline=131, lastline=131]{PS2_ImeldaFinn.R}
+      \lstinputlisting[language=R, firstline=129, lastline=129]{PS2_ImeldaFinn.R}
 
       A test was run to compare the deviances of the two models.
       
-      \lstinputlisting[language=R, firstline=136, lastline=136]{PS2_ImeldaFinn.R}
+      \lstinputlisting[language=R, firstline=134, lastline=134]{PS2_ImeldaFinn.R}
       The results are shown in ~\ref{tab:anova}.  
       The $\chi^2$ statistic = $11783 - 11568 = 215.15$. The assocated p-value with 5 degrees of freedom is $2.2\times 10^{-16}$.  
       
@@ -200,30 +205,27 @@
 
 			\include{tables/glm_null_anova.tex}
 
-		\item  Please describe the results and provide a conclusion.
+		\item  Results and conclusions:
 		
-		When 20 out of 192 countries are included and there are no sanctions (base case), then the expected odds of a participant agreeing with a policy are $e^{-0.005665} = 0.994351$ 
+		When 20 out of 192 countries are included and there are no sanctions (base case), then the estimated log odds of a participant agreeing with a policy are: 
+		$\ln (P(Y_1 = 1|X_{1i} = 1,X_{21} = 1 ) / (1-P(Y_1 = 1|X_{11} = 1,X_{21} = 1 ))) = \beta_0 + \beta_1.X_{11} + \beta_2.X_{21} $ 
 		
-		A one unit increase in $X_k$ increases the odds of supporting a policy by a multiplicative factor of $e^{\beta_k}$
+		$= -0.005665 + 1*0 + 1*0  = -0.005665$
+		
+		So the estimated odds, of a participant agreeing with a policy are:
+		$e^{-0.005665} = 0.994351$, ie very close to 1 (ie probability $\approx$ 50\%). 
+		
+		The log odds for a one unit increase from $X_{ji}$ to $X_{ji+1}$ is $\beta_{i+1}$
+		A one unit increase in $X_{jk}$ increases the odds of supporting a policy by a multiplicative factor of $e^{\beta_{jk}}$
 
-    When 20 out of 192 countries are included and there are sanctions of 5\%, the logodds change by $e^{-0.276332} = 0.758561$ compared to the base
+    When 20 out of 192 countries are included and there are sanctions of 5\%, the log of odds ratio is -0.276332 and the odds ratio (OR) is $e^{-0.276332} = 0.758561$, compared to the base
     
     $logit(p) = -0.005665 + -0.276332 $
+    
+    a change to a sanctions regime of 5\% reduces the odds of supporting policy by about 24\%.
 
-    When 80 out of 192 countries are included and there are no sanctions, the logodds change by $e^{-0.458453} = 0.632261$ compared to the base
-    
-    $logit(p) = -0.005665  -0.458453 $
-
-    When 80 out of 192 countries are included and there are sanctions of 5\%, then:
-  
-    $logit(p) = -0.005665 + -0.276332  -0.458453 = $%exp(-0.005665) *exp(-0.276332) *exp(-0.458453)$
-    
-    $e^{logit(p)} = 0.4768993$
-
-    ie the odds reduce by 48.0\%.
-    
-    
     The predicted probabilities, and confidence intervals, are in Table~\ref{tab:pred}
+
       
 %      The $e^{\beta_k}$s are all non-zero and the $5\%$ Confidence Intervals do not include 0.(Table~\ref{tab:CIs}).
       
@@ -244,36 +246,55 @@
 
 
 	\item
-	If any of the explanatory variables are significant in this model, then:
+	Both of the explanatory variables in this model are significant.
 	\begin{enumerate}
 		\item
-		For the policy in which nearly all countries participate [160 of 192], how does increasing sanctions from 5\% to 15\% change the odds that an individual will support the policy? (Interpretation of a coefficient)
+		For the policy in which nearly all countries participate [160 of 192], how does increasing sanctions from 5\% to 15\% change the odds that an individual will support the policy?
+		
+    When 80 out of 192 countries are included and sanctions change from 5\% to 15\%,the logit changes by -0.181086, therefore the odds change by 
+    $e^{-0.181086} = 0.8343636$
+    
 %		\item
 %		For the policy in which very few countries participate [20 of 192], how does increasing sanctions from 5\% to 15\% change the odds that an individual will support the policy? (Interpretation of a coefficient)
 		\item
 		What is the estimated probability that an individual will support a policy if there are 80 of 192 countries participating with no sanctions? 
+		
+		the logit for 80 of 90 and no sanctions (counties.L,  sanctions base) =  
+		
+		$logit(p) = -0.005665 + 0.458452 + 0 = 0.452787$
+		
+		The probability of support given this scenario is the inverse logit :
+		
+		\begin{lstlisting}[language = R]
+		  exp( -0.005665 + 0.458452 )/ (1+ exp( -0.005665 + 0.458452 ))
+		
+		  plogis( -0.005665 + 0.458452 )
+      [1] 0.6113017
+		\end{lstlisting}
+
 		\item
 		%Would the answers to 2a and 2b potentially change if we included the interaction term in this model? Why? 
 		
-		Including an interaction term would potentially change the results in 2a and 2b.  The values for the coefficients would potentially be different (eg $beta_{k}$) and we would have to include the constituent coefficient values in calculating the value of the logit.
+		Including an interaction term would potentially change the results in 2a and 2b.  The values for the coefficients would potentially be different (ie $beta_{kj}s$) and we would have to include the constituent coefficient values in calculating the value of the logit.
 		
 		\begin{itemize}
 		%Perform a test to see ifincluding an interaction is appropriate.
 
 			\item A model was run on the data, with an interaction between \texttt{countries} and \texttt{sanctions}, and an ANOVA/$\chi_2$ test was run.  The results are shown in Tables ~\ref{tab:int} and ~\ref{tab:anova:int}.
 			
-			The test statistic of 6.2928, with 6 degrees of freedom, lead to a p-value of 0.3912.  Therefore we cannot reject the null hypothesis that the two models are the same, ie we do not conclude that an interaction term is appropriate.
+			The test statistic of 6.2928, with 6 degrees of freedom, lead to a p-value of 0.3912.  Therefore we cannot reject the null hypothesis that the two models are the same, ie there is not evidence that including an interactive effect of number of countries and level of sanctions has a significant predictor effect on the odds for supporting a policy. 
 			
 %286
-      \lstinputlisting[language=R, firstline=278, lastline=281]{PS2_ImeldaFinn.R}
+      \lstinputlisting[language=R, firstline=296, lastline=299]{PS2_ImeldaFinn.R}
 
+  \begin{comment}
       \begin{lstlisting}[language=R]
       int_mod <- glm(choice ~countries + sanctions + countries * sanctions,
                family = binomial(link="logit"), data = cs)
 
       anova_int <- anova(mod, int_mod, test= "LRT")
       \end{lstlisting}
-
+  \end{comment}
 		  \include{tables/int_model.tex}
 		  \include{tables/int_anova.tex}
 

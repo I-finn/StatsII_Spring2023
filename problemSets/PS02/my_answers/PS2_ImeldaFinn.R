@@ -37,7 +37,7 @@ pkgTest <- function(pkg){
 #genl
 lapply(c("ggplot2", "tidyverse", "stargazer"),  pkgTest)
 #q specific
-lapply(c("lattice", "patchwork"),  pkgTest)
+lapply(c("lattice", "patchwork", "vcd"),  pkgTest)
 
 # function to save output to a file that you can read in later to your docs
 output_stargazer <- function(outputFile, appendVal=FALSE, ...) {
@@ -99,18 +99,16 @@ pairs(cs, upper.panel = NULL)
 # changes from mirrored rectangle, to triangle
 dev.off()
 
+#library(vcd)
+pdf("graphics/cs.pdf")
+mosaic(table(cs), shade = TRUE)
+dev.off()
+
 # generate likelihood model, binomial - logit
 # both predictors on choice
 mod <- glm(choice ~., family = binomial(link="logit"), data = cs)
 mod
 summary(mod)
-
-#TODO plot 4 images in 1
-#p<-plot(mod)
-#png("graphics/mod.png")
-#pdf("graphics/mod.pdf")
-#plot(mod)
-#dev.off()
 
 png("graphics/wireframe.png")
 wireframe(choice~countries+sanctions,data = cs, title = "choice ~ countries+sanctions",
@@ -128,7 +126,7 @@ dev.off()
 Halpha = 0.05
 # ANOVA test - chisq test with stat = null deviance - full deviance
 
-null_mod <- glm(choice ~1, family = binomial(link="logit"), data = cs)
+null_mod <- glm(choice ~1, family=binomial(link="logit"), data = cs)
 null_mod
 summary(null_mod)
 
@@ -234,6 +232,10 @@ predicted_data <- cbind(predicted_data, predict(mod,
                                                 newdata = predicted_data,
                                                 type = "response",
                                                 se = TRUE))
+cbind(predicted_data, predict(mod, 
+                                                newdata = predicted_data,
+                                                type = "terms",
+                                                se = TRUE))
 
 # Now we can use the code in Jeff's lecture to fill out the confidence intervals 
 # and predicted probability (see lecture)
@@ -243,11 +245,12 @@ predicted_data <- within(predicted_data,
                          UL <- plogis(fit + (1.96 * se.fit))
                          })
 
+predicted_data <- predicted_data %>% arrange(countries, sanctions)
 predicted_data
 
 stargazer(predicted_data, type= "text", summary = FALSE)
 output_stargazer("./tables/predicted.tex", predicted_data, appendVal = FALSE, summary= FALSE, 
-                 label="tab:pred")
+                 label="tab:pred", digits = 4)
 
 #           and p-value. 
 
@@ -274,18 +277,17 @@ exp(-diff)
 exp(-0.181086)
 after/before
 
+
 #(b) What is the estimated probability that an individual will support
 #a policy if there are 80 of 192 countries participating with no 
 #sanctions?
 #0.626  - jeff table of predicted values
 
+before <- -0.005665+  1* 0.458452 +0*(-0.009950) + 0   #
 
+plogis( -0.005665 + 0.458452 )
 
-before <- -0.005665+  1* 0.458452 +0*(-0.009950) + 0   #1*(-0.276332)  #    -0.181086     0.150207  
-plogis(before)
-
-#new probability
-before*exp(-0.181086)   # 0.6264761
+predicted_data
 
 #  (c) Would the answers to 2a and 2b potentially change if we included
 #the interaction term in this model? Why?
@@ -295,7 +297,7 @@ int_mod <- glm(choice ~countries + sanctions + countries * sanctions,
                family = binomial(link="logit"), data = cs)
 
 anova_int <- anova(mod, int_mod, test= "LRT")
-
+# Sun Feb 19 23:09:31 2023 ------------------------------
 int_odds <- exp(coef(int_mod))
 
 anova_int
@@ -319,7 +321,6 @@ output_stargazer("./tables/int_anova.tex", anova_int, appendVal =FALSE,
 # significant at the 10% level
 # interaction is countries = 160 of 192 * sanctions 5%
 
-
 cdplot(as.factor(choice) ~ countries , data = cs)
 cdplot(as.factor(choice) ~ sanctions , data = cs)
 
@@ -327,6 +328,12 @@ cdplot(as.factor(choice) ~ sanctions , data = cs)
 stargazer(null_mod, mod, int_mod, anova_null, anova_int, type="text")
 stargazer(mod, null_mod, int_mod, type="text")
 stargazer(mod, int_mod, type="text")
+
+library(car)
+vif(mod)
+#             GVIF Df GVIF^(1/(2*Df))
+#countries 1.00255  2        1.000637
+#sanctions 1.00255  3        1.000425
 
 
 #output latex tables
