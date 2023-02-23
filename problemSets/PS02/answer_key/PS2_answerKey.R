@@ -41,6 +41,7 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 load(url("https://github.com/ASDS-TCD/StatsII_Spring2023/blob/main/datasets/climateSupport.RData?raw=true"))
 # change baseline category to answer Qs
 climateSupport$sanctions <- relevel(factor(climateSupport$sanctions, ordered = F), ref="5%")
+climateSupport$countries <- relevel(factor(climateSupport$countries, ordered = F), ref="20 of 192")
 
 # run additive model
 climate_logit <- glm(choice~countries+sanctions, data=climateSupport, family = binomial(link = "logit"))
@@ -59,7 +60,7 @@ texreg(list(climate_logit))
 
 # (2c)
 # option #1: predict function
-round(1/(1+exp(-predict(climate_logit, newdata = data.frame(countries="80 of 192", sanctions="None"), type="response"))), 2)
+round(predict(climate_logit, newdata = data.frame(countries="80 of 192", sanctions="None"), type="response"), 2)
 
 # option #2: predicted probability "by hand"
 exp_coefs <- exp(coef(climate_logit)[1]+(coef(climate_logit)[2]*1)+(coef(climate_logit)[3]*0)+(coef(climate_logit)[4]*1)+(coef(climate_logit)[5]*0)+(coef(climate_logit)[6]*0))
