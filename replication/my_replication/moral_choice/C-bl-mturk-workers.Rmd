@@ -1,0 +1,78 @@
+---
+title: "mTurk workers"
+author: "Alexander W. Cappelen, Sebastian Fest, Erik Ø. Sørensen, and Bertil Tungodden"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{bl-mturk-workers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  fig.width = 7,
+  fig.height = 4.5,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+# Reading data and creating summaries
+
+Summary stats of background variables for the mTurk workers. For the Forced Choice treatments,
+I add the share that chose the safe alternative. This is all for Table A.1, Panel B, in the online
+appendix.
+
+```{r}
+mturk_workers <- read_csv("bl_mturkworkers.csv")
+mturk_workers <- mturk_workers %>% mutate(treatment=factor(treatment_str))
+rdf_summary <- mturk_workers %>% 
+  group_by(treatment) %>%
+  summarise(mean_age = mean(age), se_age = sd(age)/sqrt(n()),
+            mean_female = mean(female), se_female= sd(female)/sqrt(n()),
+            mean_education = mean(education), se_education = sd(education)/sqrt(n()),
+            mean_political = mean(political), se_political = sd(political)/sqrt(n()),
+            mean_risky = mean(risky), se_risky = sd(risky)/sqrt(n()),
+            mean_green = mean(green), se_green = sd(green)/sqrt(n()),
+            n = n())
+
+rdf_totals <- mturk_workers %>% 
+    summarise(mean_age = mean(age), se_age = sd(age)/sqrt(n()),
+            mean_female = mean(female), se_female= sd(female)/sqrt(n()),
+            mean_education = mean(education), se_education = sd(education)/sqrt(n()),
+            mean_political = mean(political), se_political = sd(political)/sqrt(n()),
+            mean_risky = mean(risky, na.rm=TRUE), se_risky = sd(risky, na.rm=TRUE)/sqrt(n()),
+            mean_green = mean(green, na.rm=TRUE), se_green = sd(green, na.rm=TRUE)/sqrt(n()),
+            n = n())
+```
+
+## Output of balance table
+```{r}
+rdf_summary %>% knitr::kable(digits=c(3,1,2,2,2,2,2,2,2,2,2,2,2,0))
+```
+
+### Margins of the balance table
+```{r}
+rdf_totals %>% knitr::kable(digits=c(1,2,2,2,2,2,2,2,2,2,2,2,2,0))
+```
+
+## Requested balance tests
+```{r}
+mturk_workers %>% lm(age ~ treatment, data=.) %>% summary()
+mturk_workers %>% lm(female ~ treatment, data=.) %>% summary()
+mturk_workers %>% lm(education ~ treatment, data=.) %>% summary()
+mturk_workers %>% lm(political ~ treatment, data=.) %>% summary()
+
+```
+
+
+
+
+# sessionInfo()
+```{r}
+sessionInfo()
+```

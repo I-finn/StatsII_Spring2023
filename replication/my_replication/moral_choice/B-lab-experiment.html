@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Alexander W. Cappelen, Sebastian Fest, Erik Ø. Sørensen, and Bertil Tungodden" />
+
+
+<title>Lab Experiment</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Lab Experiment</h1>
+<h4 class="author">Alexander W. Cappelen, Sebastian Fest, Erik Ø.
+Sørensen, and Bertil Tungodden</h4>
+
+
+
+<div id="reading-in-data" class="section level1">
+<h1>Reading in data</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_l <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;bl_lab.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">choice =</span> (T <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">inequality =</span> <span class="fu">abs</span>(<span class="dv">800</span> <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>transfer)<span class="sc">/</span><span class="dv">800</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">zero_to_worst_off =</span> (transfer <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">800</span>)),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">female =</span> (sex<span class="sc">==</span><span class="dv">2</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">crt_h =</span> (cr <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">age_h =</span> (age <span class="sc">&gt;=</span> <span class="fu">median</span>(age)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">treatmentorg =</span> <span class="fu">fct_recode</span>(<span class="fu">as_factor</span>(T),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;Base&quot;</span> <span class="ot">=</span> <span class="st">&quot;1&quot;</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;Forced Choice&quot;</span> <span class="ot">=</span> <span class="st">&quot;3&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;Nominal Choice&quot;</span> <span class="ot">=</span> <span class="st">&quot;2&quot;</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">treatment =</span> <span class="fu">fct_relevel</span>(treatmentorg, <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>)),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">leftp =</span> <span class="sc">!</span>(polparty <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>)))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 422 Columns: 15</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr  (1): lotteryposition</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dbl (14): pid, location, sesid, T, transfer, payment, kull, sex, age, polpar...</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
+</div>
+<div id="descriptive-graphs" class="section level1">
+<h1>Descriptive graphs</h1>
+<div id="histograms-by-treatment" class="section level2">
+<h2>Histograms by treatment</h2>
+<pre><code>#&gt; Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
+#&gt; ℹ Please use `after_stat(count)` instead.
+#&gt; This warning is displayed once every 8 hours.
+#&gt; Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#&gt; generated.
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt; Saving 7 x 5 in image
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<div id="counting-different-aspects" class="section level3">
+<h3>Counting different aspects</h3>
+<p>Counting the proportions that equalize:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dfl_equal <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">equal=</span> (transfer<span class="sc">==</span><span class="dv">400</span>)) </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dfl_equal <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">mean_equal=</span><span class="fu">mean</span>(equal))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   treatment      mean_equal</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;               &lt;dbl&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Base                0.628</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Forced Choice       0.474</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Nominal Choice      0.421</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ce_l <span class="ot">&lt;-</span> dfl_equal <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>( <span class="at">yc=</span> <span class="fu">sum</span>(transfer<span class="sc">==</span><span class="dv">400</span>), <span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_l<span class="sc">$</span>yc[ce_l<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>) ], </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>          ce_l<span class="sc">$</span>n[ce_l<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>) ])</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_l$yc[ce_l$treatment %in% c(&quot;Base&quot;, &quot;Nominal Choice&quot;)] out of ce_l$n[ce_l$treatment %in% c(&quot;Base&quot;, &quot;Nominal Choice&quot;)]</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 11.33, df = 1, p-value = 0.0007627</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.0856377 0.3266776</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.6275862 0.4214286</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_l<span class="sc">$</span>yc[ce_l<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ], </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>          ce_l<span class="sc">$</span>n[ce_l<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ])</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_l$yc[ce_l$treatment %in% c(&quot;Base&quot;, &quot;Forced Choice&quot;)] out of ce_l$n[ce_l$treatment %in% c(&quot;Base&quot;, &quot;Forced Choice&quot;)]</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 6.078, df = 1, p-value = 0.01369</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.03121584 0.27505146</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.6275862 0.4744526</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_l<span class="sc">$</span>yc[ce_l<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Nominal Choice&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ], </span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>          ce_l<span class="sc">$</span>n[ce_l<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Nominal Choice&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ])</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_l$yc[ce_l$treatment %in% c(&quot;Nominal Choice&quot;, &quot;Forced Choice&quot;)] out of ce_l$n[ce_l$treatment %in% c(&quot;Nominal Choice&quot;, &quot;Forced Choice&quot;)]</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 0.58749, df = 1, p-value = 0.4434</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.07116722  0.17721519</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.4744526 0.4214286</span></span></code></pre></div>
+<p>Counting the proportions that give nothing to the unlucky
+participant</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dfl_nothing <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">nothing=</span> (transfer<span class="sc">==</span><span class="dv">0</span>)) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dfl_nothing <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">mean_nothing=</span><span class="fu">mean</span>(nothing))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   treatment      mean_nothing</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;                 &lt;dbl&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Base                  0.103</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Forced Choice         0.182</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Nominal Choice        0.193</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ce_n <span class="ot">&lt;-</span> dfl_nothing <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>( <span class="at">y0=</span> <span class="fu">sum</span>(transfer<span class="sc">==</span><span class="dv">0</span>), <span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_n<span class="sc">$</span>y0[ce_n<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>) ], </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>          ce_n<span class="sc">$</span>n[ce_n<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>) ])</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_n$y0[ce_n$treatment %in% c(&quot;Base&quot;, &quot;Nominal Choice&quot;)] out of ce_n$n[ce_n$treatment %in% c(&quot;Base&quot;, &quot;Nominal Choice&quot;)]</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 3.8479, df = 1, p-value = 0.04981</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.1784551854 -0.0003625486</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1034483 0.1928571</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_n<span class="sc">$</span>y0[ce_n<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ], </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>          ce_n<span class="sc">$</span>n[ce_n<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ])</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_n$y0[ce_n$treatment %in% c(&quot;Base&quot;, &quot;Forced Choice&quot;)] out of ce_n$n[ce_n$treatment %in% c(&quot;Base&quot;, &quot;Forced Choice&quot;)]</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 2.9947, df = 1, p-value = 0.08354</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.167618608  0.009551656</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1034483 0.1824818</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_n<span class="sc">$</span>y0[ce_n<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Nominal Choice&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ], </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>          ce_n<span class="sc">$</span>n[ce_n<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Nominal Choice&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ])</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_n$y0[ce_n$treatment %in% c(&quot;Nominal Choice&quot;, &quot;Forced Choice&quot;)] out of ce_n$n[ce_n$treatment %in% c(&quot;Nominal Choice&quot;, &quot;Forced Choice&quot;)]</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 0.0045181, df = 1, p-value = 0.9464</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.10954366  0.08879287</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1824818 0.1928571</span></span></code></pre></div>
+</div>
+</div>
+<div id="mean-inequality-and-nothing-to-worst-off-by-treatment-with-sem." class="section level2">
+<h2>mean inequality and nothing to worst off by treatment (with
+SEM).</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_mean_ineq_nothing_lab <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(treatment, inequality, zero_to_worst_off) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(inequality, zero_to_worst_off, <span class="at">key=</span><span class="st">&quot;outcome&quot;</span>, <span class="at">value=</span><span class="st">&quot;y&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treatment, outcome) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_y =</span> <span class="fu">mean</span>(y, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">se_y =</span> <span class="fu">sd</span>(y, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>())) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outcome =</span> <span class="fu">fct_recode</span>(outcome, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Inequality&quot;</span> <span class="ot">=</span> <span class="st">&quot;inequality&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Nothing to worse off&quot;</span> <span class="ot">=</span> <span class="st">&quot;zero_to_worst_off&quot;</span>))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; `summarise()` has grouped output by &#39;treatment&#39;. You can override using the</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; `.groups` argument.</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>df_mean_ineq_nothing_lab <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treatment, <span class="at">y=</span>mean_y)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymax=</span>mean_y<span class="sc">+</span>se_y, <span class="at">ymin=</span>mean_y <span class="sc">-</span> se_y), <span class="at">width=</span><span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> outcome, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Mean \u00B1 s.e.m.&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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h8CwGjAiQn11YIQFXfOHnafyLH6YLAoY596Yjq+4fdWBERZ0zR927g+BYTVgRIT66sCo3z3o8p5bj8CwGjAiQn11YKQ6B6WgPasBIyLUVwdGXc/i1/ph5/4QGFYDRkSorw6Mkq+DruvDzv0hMKwGjIhQXx0Y8SdJFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWAERHqqwMjCmpRDRgRob46MKKgFtWA0fn4WfnXqyP8w1gKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowoqAW1YAREeqrAyMKalENGBGhvjowGiDos/Ivr0f4R90J+OP8VW9ndWDEe1CLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YUVCLasCICPXVgREFtagGjIhQXx0YdQh6emf3yvGFSyXpaqoDIyIcXB0YYUHP7u+XR1dXLy3vufUIDKuFCHOrAyMs6OnHB+Xs5sHKJdLVVQsR5lYHRljQ2a3j8vSjByuXpE7HhwczTYQIc5MW9ORKYLq4tKx2z3w3bLftrJZmQ4TDq6Xd9rsHXd6zZ/whMKyWZkOEw6ul3a7tHDQVfwgMq6XZEOHwamm3Xc/i986fgu6ln4Km4g+BYbU0GyIcXi3tNvk6aP19r3kRLxV/CAyrpd0SoaWgiT17xh8Cw2rJGqP4O07Damm3FNSiWrLGKP6O07Ba2i0FtaiWrDGKv+M0rJZ2S0EtqiVrjOLvOA2rpd1SUItqyRqj+DtOw2pptxTUolqyxij+jtOwWtotBbWolqwxir/jNKyWdktBLaola4zi7zgNq6XdUlCLaskao/g7TsNqabcU1KJassYo/o7TsFraLQW1qJasMYq/4zSslnZLQS2qJWuM4u84Daul3Q4QlEmHCLMzWNCBkeSKiVX3j0yxmoJuqrp/ZIrVFHRT1f0jU6weTVCGGRIKyrgOBWVch4IyrkNBGdexE3R2Y7fKfnbDXteS+k256pxUC9t/P7m0/8qfFq37aHbpynBFj/p1hghNBa2/+Oz9B+mVnQ3daekevV2tfHTlWOPM7Ea9WGdXu6pP/TpDhOaCnn35YP5dvD//Fqpv5Omd+UbdUIZdZr/+5O2D6uJbD0JHtfmbT2q6zZvKVKRnN/99/rXaPZp/j77YoW39n6tlmFXXnn35X9V9zEl9P1NdObv1n/OG5ka3bwvSp36dIUL7e9Bbx/Vtqy7Xb/5Sv7fGo+W32FA0lPNdTqrvvepxpf5ury62HfX18wfAk/CeCLMb86Vhj5sHqzuE1kcNt2bV2f2r1X5X52ir/5qG9kY3t6BX/TpDhPbnoM0Nq9C2b51Vb2rQ6oar8+XVbvWRLr4d68bq+ubx6WSJXPibbPZY2eF8zem/HS9W1fdQ9f8WO7R/q9W8pdunfp0hQvuH+ProH80fmSpWzV35br1VNzSb6vDnh3ar/stqO+bjR/PT9VvHiz3ag272WNlhseZob7EK0J3f6OYW9KpfZ4jQXNDq6E/vhBOR+R1/j3uaxbfhhW//j8+vb779l85w4t+fy1+0YfP77m//9kZfOoFK168zRGguaKDy/oP6xGNx8qFvKMvF+cocZn0CtDiP2b30FHRxatSe4Sx2WLTOn4e2J1Axuu2Nnl1+CpqqJ8L1IhzhddCj3fkzxUfnT0G1j4aB7uIZ3+IpX91xdr99CrryKtvs/MnlbPk54vkXbVprYOEpaOzxqbnR4Rb0qF9niJA/SWKch4IyrkNBGdehoIzrUFDGdSgo4zoUlHEdCsq4DgVlXIeCMq5DQRnXoaCM61BQxnUoKOM6FJRxHQrKuA4FZVyHgjKuQ0EZ16GgjOtQUMZ1KCjjOhSUcR0KyrgOBWVch4IyrkNBGdf5f2ypnnrImaO+AAAAAElFTkSuQmCC" /><!-- --></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">here</span>(<span class="st">&quot;graphs/mean_ineq_nothing_lab.pdf&quot;</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Saving 7 x 5 in image</span></span></code></pre></div>
+<div id="counting-different-aspects-1" class="section level3">
+<h3>Counting different aspects</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_mean_ineq_nothing_lab <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">treatment</th>
+<th align="left">outcome</th>
+<th align="right">mean_y</th>
+<th align="right">se_y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Base</td>
+<td align="left">Inequality</td>
+<td align="right">0.2044828</td>
+<td align="right">0.0279023</td>
+</tr>
+<tr class="even">
+<td align="left">Base</td>
+<td align="left">Nothing to worse off</td>
+<td align="right">0.1034483</td>
+<td align="right">0.0253786</td>
+</tr>
+<tr class="odd">
+<td align="left">Forced Choice</td>
+<td align="left">Inequality</td>
+<td align="right">0.3246350</td>
+<td align="right">0.0338496</td>
+</tr>
+<tr class="even">
+<td align="left">Forced Choice</td>
+<td align="left">Nothing to worse off</td>
+<td align="right">0.1970803</td>
+<td align="right">0.0341105</td>
+</tr>
+<tr class="odd">
+<td align="left">Nominal Choice</td>
+<td align="left">Inequality</td>
+<td align="right">0.3687500</td>
+<td align="right">0.0342227</td>
+</tr>
+<tr class="even">
+<td align="left">Nominal Choice</td>
+<td align="left">Nothing to worse off</td>
+<td align="right">0.2285714</td>
+<td align="right">0.0356165</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_l_outcomes <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(treatment, inequality, zero_to_worst_off) <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(inequality, zero_to_worst_off, <span class="at">key=</span><span class="st">&quot;outcome&quot;</span>, <span class="at">value=</span><span class="st">&quot;y&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treatment, outcome)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df_l_outcomes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(outcome<span class="sc">==</span><span class="st">&quot;inequality&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">t.test</span>(y<span class="sc">~</span>treatment, <span class="at">data=</span>.)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Welch Two Sample t-test</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  y by treatment</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; t = -3.7202, df = 270.04, p-value = 0.0002422</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: true difference in means between group Base and group Nominal Choice is not equal to 0</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.25120051 -0.07733397</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           mean in group Base mean in group Nominal Choice </span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    0.2044828                    0.3687500</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>df_l_outcomes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(outcome<span class="sc">==</span><span class="st">&quot;inequality&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">t.test</span>(y<span class="sc">~</span>treatment, <span class="at">data=</span>.)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Welch Two Sample t-test</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  y by treatment</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; t = -2.739, df = 267.13, p-value = 0.006577</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: true difference in means between group Base and group Forced Choice is not equal to 0</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.20652168 -0.03378288</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          mean in group Base mean in group Forced Choice </span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   0.2044828                   0.3246350</span></span></code></pre></div>
+<p>Counting the proportions that give nothing to the worst off
+participant</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dfl_nwo <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">nwo=</span> (transfer <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">800</span>))) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dfl_nwo <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">mean_nwo=</span><span class="fu">mean</span>(nwo))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   treatment      mean_nwo</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;fct&gt;             &lt;dbl&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Base              0.103</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Forced Choice     0.197</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Nominal Choice    0.229</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ce_nwo <span class="ot">&lt;-</span> dfl_nwo <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>( <span class="at">yc=</span> <span class="fu">sum</span>(nwo), <span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_nwo<span class="sc">$</span>yc[ce_nwo<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>) ], </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>          ce_nwo<span class="sc">$</span>n[ce_nwo<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Nominal Choice&quot;</span>) ])</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_nwo$yc[ce_nwo$treatment %in% c(&quot;Base&quot;, &quot;Nominal Choice&quot;)] out of ce_nwo$n[ce_nwo$treatment %in% c(&quot;Base&quot;, &quot;Nominal Choice&quot;)]</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 7.2143, df = 1, p-value = 0.007233</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.21755565 -0.03269066</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1034483 0.2285714</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_nwo<span class="sc">$</span>yc[ce_nwo<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ], </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>          ce_nwo<span class="sc">$</span>n[ce_nwo<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Base&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ])</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_nwo$yc[ce_nwo$treatment %in% c(&quot;Base&quot;, &quot;Forced Choice&quot;)] out of ce_nwo$n[ce_nwo$treatment %in% c(&quot;Base&quot;, &quot;Forced Choice&quot;)]</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 4.1615, df = 1, p-value = 0.04135</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.183760871 -0.003503161</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1034483 0.1970803</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(ce_nwo<span class="sc">$</span>yc[ce_nwo<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Nominal Choice&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ], </span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>          ce_nwo<span class="sc">$</span>n[ce_nwo<span class="sc">$</span>treatment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Nominal Choice&quot;</span>, <span class="st">&quot;Forced Choice&quot;</span>) ])</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2-sample test for equality of proportions with continuity correction</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data:  ce_nwo$yc[ce_nwo$treatment %in% c(&quot;Nominal Choice&quot;, &quot;Forced Choice&quot;)] out of ce_nwo$n[ce_nwo$treatment %in% c(&quot;Nominal Choice&quot;, &quot;Forced Choice&quot;)]</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; X-squared = 0.24331, df = 1, p-value = 0.6218</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative hypothesis: two.sided</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 95 percent confidence interval:</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -0.13502023  0.07203796</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sample estimates:</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    prop 1    prop 2 </span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.1970803 0.2285714</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="regressions-for-paper" class="section level1">
+<h1>Regressions for paper</h1>
+<div id="main-treatment-effects" class="section level2">
+<h2>Main treatment effects</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>t1ineq1_l <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> treatment , <span class="at">data=</span>.)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>t1ineq2_l <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> treatment <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h, <span class="at">data=</span>.)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>t1noth1_l <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span>treatment , <span class="at">data=</span>.)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>t1noth2_l <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span>treatment <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h , <span class="at">data=</span>.)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(t1ineq1_l, t1ineq2_l, t1noth1_l, t1noth2_l,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">se =</span> <span class="fu">list</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t1ineq1_l, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t1ineq2_l, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t1noth1_l, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t1noth2_l, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l))))),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">type=</span><span class="st">&quot;text&quot;</span>, <span class="at">style=</span><span class="st">&quot;aer&quot;</span>, <span class="at">df=</span><span class="cn">FALSE</span>, <span class="at">keep.stat=</span><span class="fu">c</span>(<span class="st">&quot;rsq&quot;</span>,<span class="st">&quot;n&quot;</span>),</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">star.char=</span><span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="at">notes=</span><span class="st">&quot;&quot;</span>, <span class="at">notes.append=</span><span class="cn">FALSE</span>, <span class="at">report=</span><span class="st">&quot;vcsp&quot;</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ===============================================================</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             inequality       zero_to_worst_off </span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            (1)       (2)       (3)       (4)   </span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---------------------------------------------------------------</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentForced Choice    0.120     0.125     0.094     0.101  </span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          (0.044)   (0.044)   (0.043)   (0.042) </span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         p = 0.007 p = 0.005 p = 0.028 p = 0.017</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentNominal Choice   0.164     0.163     0.125     0.128  </span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          (0.044)   (0.044)   (0.044)   (0.043) </span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         p = 0.001 p = 0.001 p = 0.005 p = 0.003</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; leftp                              -0.115              -0.075  </span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                    (0.037)             (0.037) </span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   p = 0.003           p = 0.044</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; female                             -0.108              -0.159  </span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                    (0.040)             (0.039) </span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   p = 0.007           p = 0.000</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_h                               0.017               0.051  </span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                    (0.037)             (0.036) </span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   p = 0.646           p = 0.157</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; crt_h                               0.001               0.009  </span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                    (0.040)             (0.039) </span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   p = 0.984           p = 0.827</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Constant                  0.204     0.310     0.103     0.182  </span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          (0.028)   (0.051)   (0.025)   (0.047) </span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         p = 0.000 p = 0.000 p = 0.000 p = 0.000</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                </span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Observations               422       422       422       422   </span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R2                        0.033     0.081     0.020     0.086  </span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---------------------------------------------------------------</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Notes:</span></span></code></pre></div>
+<p>(And to disk, no output)</p>
+</div>
+<div id="interactions-with-choice-inequality" class="section level2">
+<h2>Interactions with choice, inequality</h2>
+<p>Now for the role of interaction. Previously we focused on the
+political interaction only, currently we aim to look broader at the
+heterogeneity. I make one table for the paper (inequality).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>t2ineq1 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data=</span>.)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>t2ineq2 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>leftp , <span class="at">data=</span>.)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>t2ineq3 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>female, <span class="at">data=</span>.)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>t2ineq4 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>age_h, <span class="at">data=</span>.)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>t2ineq5 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                          choice<span class="sc">*</span>crt_h, <span class="at">data=</span>.)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>t2ineq6 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                           choice<span class="sc">*</span>leftp <span class="sc">+</span> choice<span class="sc">*</span>female <span class="sc">+</span> choice<span class="sc">*</span>age_h <span class="sc">+</span> choice<span class="sc">*</span>crt_h, <span class="at">data=</span>.)</span></code></pre></div>
+<p>We want linear combinations with standard errors as rows in the
+table:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>c2 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2ineq2, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:leftpTRUE = 0&quot;</span>, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2ineq2, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>c3 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2ineq3, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:femaleTRUE = 0&quot;</span>, </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2ineq3, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>c4 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2ineq4, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:age_hTRUE = 0&quot;</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2ineq4, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>c5 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2ineq5, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:crt_hTRUE = 0&quot;</span>, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2ineq5, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Linear combination&quot;</span>,<span class="st">&quot; &quot;</span>, </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(c2)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(c3)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(c4)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(c5)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;&quot;</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(c2)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(c3)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(c4)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(c5)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;&quot;</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>r3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(c2)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(c3)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(c4)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(c5)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(t2ineq1, t2ineq2, t2ineq3, t2ineq4, t2ineq5, t2ineq6,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">se =</span> <span class="fu">list</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2ineq1, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2ineq2, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2ineq3, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2ineq4, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2ineq5, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2ineq6, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l))))),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">order=</span><span class="fu">c</span>(<span class="st">&quot;choice&quot;</span>,<span class="st">&quot;choiceTRUE:leftp&quot;</span>,<span class="st">&quot;choiceTRUE:female&quot;</span>, <span class="st">&quot;choiceTRUE:age_h&quot;</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;choiceTRUE:crt_h&quot;</span>),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">type=</span><span class="st">&quot;text&quot;</span>, <span class="at">style=</span><span class="st">&quot;aer&quot;</span>, <span class="at">df=</span><span class="cn">FALSE</span>, <span class="at">keep.stat=</span><span class="fu">c</span>(<span class="st">&quot;rsq&quot;</span>,<span class="st">&quot;n&quot;</span>), <span class="at">p.auto=</span><span class="cn">TRUE</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">add.lines=</span> <span class="fu">list</span>(r1,r2,r3),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">star.char=</span><span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="at">notes=</span><span class="st">&quot;&quot;</span>, <span class="at">notes.append=</span><span class="cn">FALSE</span>, <span class="at">report=</span><span class="st">&quot;vcsp&quot;</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ==============================================================================</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                            inequality                         </span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       (1)       (2)       (3)       (4)       (5)       (6)   </span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------------------------------------------------------------------------------</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choice               0.144     0.258     0.250     0.157     0.105     0.361  </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.037)   (0.058)   (0.053)   (0.055)   (0.054)   (0.098) </span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.001 p = 0.000 p = 0.000 p = 0.005 p = 0.054 p = 0.001</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:leftp              -0.192                                  -0.146  </span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               (0.074)                                 (0.075) </span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              p = 0.010                               p = 0.052</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:female                       -0.235                        -0.216  </span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         (0.073)                       (0.085) </span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                        p = 0.002                     p = 0.012</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:age_h                                  -0.021              -0.044  </span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                   (0.075)             (0.075) </span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                  p = 0.779           p = 0.563</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:crt_h                                             0.072    -0.011  </span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                             (0.075)   (0.084) </span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                            p = 0.335 p = 0.892</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; leftp               -0.116     0.012    -0.124    -0.116    -0.115    -0.027  </span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.037)   (0.058)   (0.037)   (0.038)   (0.038)   (0.058) </span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.002 p = 0.843 p = 0.001 p = 0.002 p = 0.003 p = 0.643</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; female              -0.109    -0.116     0.052    -0.108    -0.113     0.036  </span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.040)   (0.040)   (0.061)   (0.040)   (0.040)   (0.070) </span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.007 p = 0.004 p = 0.400 p = 0.008 p = 0.006 p = 0.610</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_h                0.018     0.018     0.029     0.032     0.020     0.057  </span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.037)   (0.036)   (0.037)   (0.059)   (0.037)   (0.060) </span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.622 p = 0.621 p = 0.427 p = 0.587 p = 0.586 p = 0.338</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; crt_h               -0.003    -0.005     0.010    -0.003    -0.051     0.014  </span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.040)   (0.040)   (0.039)   (0.040)   (0.062)   (0.068) </span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.948 p = 0.901 p = 0.799 p = 0.940 p = 0.416 p = 0.836</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Constant             0.312     0.240     0.232     0.303     0.338     0.162  </span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.051)   (0.056)   (0.059)   (0.059)   (0.058)   (0.078) </span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.000 p = 0.000 p = 0.000 p = 0.000 p = 0.000 p = 0.038</span></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linear combination             0.066     0.015     0.136     0.177            </span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               (0.047)   (0.050)   (0.050)   (0.051)           </span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               p=0.160   p=0.765   p=0.007   p=0.001           </span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Observations          422       422       422       422       422       422   </span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R2                   0.080     0.093     0.100     0.080     0.082     0.109  </span></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------------------------------------------------------------------------------</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Notes:</span></span></code></pre></div>
+<p>(And to disk, no output)</p>
+<div id="interactions-with-choice-nothing-to-the-worst-off" class="section level3">
+<h3>Interactions with choice, nothing to the worst off</h3>
+<p>We need similar interactions with our indicator for nothing to the
+worst off (for appendix).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>t2noth1 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data=</span>.)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>t2noth2 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>leftp , <span class="at">data=</span>.)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>t2noth3 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>female, <span class="at">data=</span>.)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>t2noth4 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>age_h, <span class="at">data=</span>.)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>t2noth5 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                          choice<span class="sc">*</span>crt_h, <span class="at">data=</span>.)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>t2noth6 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(zero_to_worst_off <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> female <span class="sc">+</span> age_h <span class="sc">+</span> crt_h <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                           choice<span class="sc">*</span>leftp <span class="sc">+</span> choice<span class="sc">*</span>female <span class="sc">+</span> choice<span class="sc">*</span>age_h <span class="sc">+</span> choice<span class="sc">*</span>crt_h, <span class="at">data=</span>.)</span></code></pre></div>
+<p>We want linear combinations with standard errors as rows in the
+table:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2noth2, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:leftpTRUE = 0&quot;</span>, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2noth2, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2noth3, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:femaleTRUE = 0&quot;</span>, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2noth3, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>d4 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2noth4, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:age_hTRUE = 0&quot;</span>, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2noth4, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>d5 <span class="ot">&lt;-</span> <span class="fu">glht</span>(t2noth5, <span class="at">linfct=</span><span class="st">&quot;choiceTRUE + choiceTRUE:crt_hTRUE = 0&quot;</span>, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">vcov =</span> <span class="fu">cluster.vcov</span>(t2noth5, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Linear combination&quot;</span>,<span class="st">&quot; &quot;</span>, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(d2)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(d3)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(d4)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%4.3f&quot;</span>, <span class="fu">summary</span>(d5)<span class="sc">$</span>test<span class="sc">$</span>coefficients[<span class="dv">1</span>]),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;&quot;</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(d2)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(d3)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(d4)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;(%4.3f)&quot;</span>, <span class="fu">summary</span>(d5)<span class="sc">$</span>test<span class="sc">$</span>sigma[<span class="dv">1</span>]),</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;&quot;</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>s3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(d2)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(d3)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(d4)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;p=%4.3f&quot;</span>, <span class="fu">summary</span>(d5)<span class="sc">$</span>test<span class="sc">$</span>pvalues[<span class="dv">1</span>]),</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p>Table with p-values for reference:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(t2noth1, t2noth2, t2noth3, t2noth4, t2noth5, t2noth6,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">se =</span> <span class="fu">list</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2noth1, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2noth2, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2noth3, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2noth4, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2noth5, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(t2noth6, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l))))),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">order=</span><span class="fu">c</span>(<span class="st">&quot;choice&quot;</span>,<span class="st">&quot;choiceTRUE:leftp&quot;</span>,<span class="st">&quot;choiceTRUE:female&quot;</span>, <span class="st">&quot;choiceTRUE:age_h&quot;</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;choiceTRUE:crt_h&quot;</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">add.lines=</span><span class="fu">list</span>(s1,s2,s3), </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">type=</span><span class="st">&quot;text&quot;</span>, <span class="at">style=</span><span class="st">&quot;aer&quot;</span>, <span class="at">df=</span><span class="cn">FALSE</span>, <span class="at">keep.stat=</span><span class="fu">c</span>(<span class="st">&quot;rsq&quot;</span>,<span class="st">&quot;n&quot;</span>), <span class="at">p.auto=</span><span class="cn">TRUE</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">star.char=</span><span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="at">notes=</span><span class="st">&quot;&quot;</span>, <span class="at">notes.append=</span><span class="cn">FALSE</span>, <span class="at">report=</span><span class="st">&quot;vcsp&quot;</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ==============================================================================</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         zero_to_worst_off                     </span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       (1)       (2)       (3)       (4)       (5)       (6)   </span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------------------------------------------------------------------------------</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choice               0.115     0.191     0.217     0.109     0.068     0.266  </span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.035)   (0.058)   (0.053)   (0.047)   (0.048)   (0.091) </span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.002 p = 0.002 p = 0.000 p = 0.022 p = 0.160 p = 0.004</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:leftp              -0.129                                  -0.085  </span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               (0.072)                                 (0.070) </span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              p = 0.074                               p = 0.226</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:female                       -0.227                        -0.209  </span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         (0.069)                       (0.077) </span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                        p = 0.001                     p = 0.007</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:age_h                                   0.010              -0.016  </span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                   (0.069)             (0.068) </span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                  p = 0.889           p = 0.816</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:crt_h                                             0.087     0.006  </span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                             (0.070)   (0.078) </span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                            p = 0.214 p = 0.937</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; leftp               -0.076     0.010    -0.084    -0.076    -0.075    -0.026  </span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.037)   (0.053)   (0.037)   (0.037)   (0.037)   (0.050) </span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.042 p = 0.851 p = 0.023 p = 0.042 p = 0.044 p = 0.599</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; female              -0.160    -0.164    -0.005    -0.160    -0.164    -0.019  </span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.039)   (0.039)   (0.054)   (0.039)   (0.039)   (0.059) </span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.000 p = 0.000 p = 0.934 p = 0.000 p = 0.000 p = 0.745</span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_h                0.051     0.051     0.062     0.045     0.054     0.072  </span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.036)   (0.036)   (0.036)   (0.050)   (0.036)   (0.049) </span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.150 p = 0.150 p = 0.083 p = 0.368 p = 0.132 p = 0.144</span></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; crt_h                0.006     0.005     0.018     0.006    -0.052     0.012  </span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.039)   (0.039)   (0.039)   (0.039)   (0.056)   (0.061) </span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.874 p = 0.906 p = 0.635 p = 0.870 p = 0.357 p = 0.845</span></span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Constant             0.184     0.135     0.107     0.188     0.215     0.076  </span></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     (0.047)   (0.053)   (0.053)   (0.051)   (0.051)   (0.067) </span></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    p = 0.000 p = 0.011 p = 0.044 p = 0.001 p = 0.000 p = 0.259</span></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               </span></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linear combination             0.063    -0.010     0.119     0.155            </span></span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               (0.043)   (0.043)   (0.049)   (0.051)           </span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               p=0.146   p=0.820   p=0.017   p=0.002           </span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Observations          422       422       422       422       422       422   </span></span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R2                   0.085     0.092     0.105     0.085     0.088     0.107  </span></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ------------------------------------------------------------------------------</span></span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Notes:</span></span></code></pre></div>
+<p>(And to disk, no output)</p>
+</div>
+</div>
+<div id="triple-interactions" class="section level2">
+<h2>Triple interactions</h2>
+<p>The editor is interested in the possible triple interaction between
+political, left, and cognitive reflection.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>triple1 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> leftp <span class="sc">+</span> crt_h <span class="sc">+</span> female <span class="sc">+</span> age_h  , <span class="at">data=</span>.)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>triple2 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> choice<span class="sc">*</span>leftp <span class="sc">+</span> leftp <span class="sc">+</span> crt_h <span class="sc">+</span> female <span class="sc">+</span> age_h, <span class="at">data=</span>.)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>triple3 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> choice<span class="sc">*</span>crt_h <span class="sc">+</span> leftp <span class="sc">+</span> crt_h <span class="sc">+</span> female <span class="sc">+</span> age_h, <span class="at">data=</span>. )</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>triple4 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> choice<span class="sc">*</span>leftp <span class="sc">+</span> choice<span class="sc">*</span>crt_h <span class="sc">+</span> leftp <span class="sc">+</span> crt_h <span class="sc">+</span>  </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                         female <span class="sc">+</span> age_h, <span class="at">data=</span>. )</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>triple5 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> choice<span class="sc">*</span>leftp <span class="sc">+</span> choice<span class="sc">*</span>crt_h <span class="sc">+</span> leftp<span class="sc">*</span>crt_h <span class="sc">+</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                         leftp <span class="sc">+</span> crt_h <span class="sc">+</span>  female <span class="sc">+</span> age_h, <span class="at">data=</span>. )</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>triple6 <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(inequality <span class="sc">~</span> choice <span class="sc">+</span> choice<span class="sc">*</span>leftp <span class="sc">+</span> choice<span class="sc">*</span>crt_h <span class="sc">+</span> leftp<span class="sc">*</span>crt_h <span class="sc">+</span> </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                         choice<span class="sc">*</span>leftp<span class="sc">*</span>crt_h <span class="sc">+</span> leftp <span class="sc">+</span> crt_h <span class="sc">+</span>  female <span class="sc">+</span> age_h, <span class="at">data=</span>. )</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(triple1, triple2, triple3, triple4, triple5, triple6,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">se =</span> <span class="fu">list</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(triple1, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(triple2, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(triple3, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(triple4, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(triple5, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l)))),</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">cluster.vcov</span>(triple6, <span class="at">cluster=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df_l))))),</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">style=</span><span class="st">&quot;aer&quot;</span>, <span class="at">df=</span><span class="cn">FALSE</span>, <span class="at">keep.stat=</span><span class="fu">c</span>(<span class="st">&quot;rsq&quot;</span>,<span class="st">&quot;n&quot;</span>), <span class="at">p.auto=</span><span class="cn">TRUE</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">star.char=</span><span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>), <span class="at">notes=</span><span class="st">&quot;&quot;</span>, <span class="at">notes.append=</span><span class="cn">FALSE</span>, <span class="at">report=</span><span class="st">&quot;vcsp&quot;</span>, <span class="at">type=</span><span class="st">&quot;text&quot;</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ======================================================================================</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                    inequality                         </span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               (1)       (2)       (3)       (4)       (5)       (6)   </span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; --------------------------------------------------------------------------------------</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choice                       0.144     0.258     0.105     0.221     0.216     0.192  </span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             (0.037)   (0.058)   (0.054)   (0.067)   (0.065)   (0.074) </span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            p = 0.001 p = 0.000 p = 0.054 p = 0.001 p = 0.001 p = 0.010</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; leftp                       -0.116     0.012    -0.115     0.011     0.164     0.140  </span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             (0.037)   (0.058)   (0.038)   (0.058)   (0.067)   (0.078) </span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            p = 0.002 p = 0.843 p = 0.003 p = 0.854 p = 0.014 p = 0.075</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; crt_h                       -0.003    -0.005    -0.051    -0.049     0.130     0.103  </span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             (0.040)   (0.040)   (0.062)   (0.061)   (0.074)   (0.088) </span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            p = 0.948 p = 0.901 p = 0.416 p = 0.419 p = 0.079 p = 0.244</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; female                      -0.109    -0.116    -0.113    -0.119    -0.110    -0.109  </span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             (0.040)   (0.040)   (0.040)   (0.040)   (0.040)   (0.040) </span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            p = 0.007 p = 0.004 p = 0.006 p = 0.004 p = 0.006 p = 0.007</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age_h                        0.018     0.018     0.020     0.020     0.009     0.009  </span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             (0.037)   (0.036)   (0.037)   (0.036)   (0.036)   (0.036) </span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            p = 0.622 p = 0.621 p = 0.586 p = 0.588 p = 0.809 p = 0.812</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:leftp                      -0.192              -0.190    -0.176    -0.138  </span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                       (0.074)             (0.074)   (0.073)   (0.103) </span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                      p = 0.010           p = 0.011 p = 0.016 p = 0.182</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:crt_h                                 0.072     0.067     0.058     0.099  </span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                 (0.075)   (0.074)   (0.072)   (0.111) </span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                p = 0.335 p = 0.366 p = 0.423 p = 0.375</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; leftpTRUE:crt_h                                                     -0.289    -0.244  </span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                     (0.072)   (0.113) </span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                    p = 0.000 p = 0.032</span></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; choiceTRUE:leftpTRUE:crt_h                                                    -0.069  </span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                               (0.146) </span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                              p = 0.637</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Constant                     0.312     0.240     0.338     0.264     0.170     0.184  </span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                             (0.051)   (0.056)   (0.058)   (0.060)   (0.059)   (0.059) </span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            p = 0.000 p = 0.000 p = 0.000 p = 0.000 p = 0.005 p = 0.002</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                       </span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Observations                  422       422       422       422       422       422   </span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R2                           0.080     0.093     0.082     0.095     0.128     0.128  </span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; --------------------------------------------------------------------------------------</span></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Notes:</span></span></code></pre></div>
+<p>(And to disk, no output)</p>
+</div>
+</div>
+<div id="balance-table-appendix" class="section level1">
+<h1>Balance table (appendix)</h1>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dfl_summary <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(treatment) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age), <span class="at">se_age =</span> <span class="fu">sd</span>(age)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">mean_female =</span> <span class="fu">mean</span>(female), <span class="at">se_female=</span><span class="fu">sd</span>(female)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">mean_crt =</span> <span class="fu">mean</span>(cr), <span class="at">se_crt =</span> <span class="fu">sd</span>(cr)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">mean_left =</span> <span class="fu">mean</span>(leftp), <span class="at">se_leftp=</span><span class="fu">sd</span>(leftp)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">n=</span> <span class="fu">n</span>())</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>dfl_totals <span class="ot">&lt;-</span> df_l <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age), <span class="at">se_age =</span> <span class="fu">sd</span>(age)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">mean_female =</span> <span class="fu">mean</span>(female), <span class="at">se_female=</span><span class="fu">sd</span>(female)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">mean_crt =</span> <span class="fu">mean</span>(cr), <span class="at">se_crt =</span> <span class="fu">sd</span>(cr)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">mean_left =</span> <span class="fu">mean</span>(leftp), <span class="at">se_leftp=</span><span class="fu">sd</span>(leftp)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">n=</span> <span class="fu">n</span>())</span></code></pre></div>
+<p>Output of balance table</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dfl_summary <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">0</span>))</span></code></pre></div>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="9%" />
+<col width="7%" />
+<col width="13%" />
+<col width="10%" />
+<col width="9%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">treatment</th>
+<th align="right">mean_age</th>
+<th align="right">se_age</th>
+<th align="right">mean_female</th>
+<th align="right">se_female</th>
+<th align="right">mean_crt</th>
+<th align="right">se_crt</th>
+<th align="right">mean_left</th>
+<th align="right">se_leftp</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Base</td>
+<td align="right">22.9</td>
+<td align="right">0.29</td>
+<td align="right">0.44</td>
+<td align="right">0.04</td>
+<td align="right">1.58</td>
+<td align="right">0.09</td>
+<td align="right">0.60</td>
+<td align="right">0.04</td>
+<td align="right">145</td>
+</tr>
+<tr class="even">
+<td align="left">Forced Choice</td>
+<td align="right">22.4</td>
+<td align="right">0.22</td>
+<td align="right">0.47</td>
+<td align="right">0.04</td>
+<td align="right">1.84</td>
+<td align="right">0.09</td>
+<td align="right">0.60</td>
+<td align="right">0.04</td>
+<td align="right">137</td>
+</tr>
+<tr class="odd">
+<td align="left">Nominal Choice</td>
+<td align="right">22.7</td>
+<td align="right">0.24</td>
+<td align="right">0.47</td>
+<td align="right">0.04</td>
+<td align="right">1.55</td>
+<td align="right">0.10</td>
+<td align="right">0.56</td>
+<td align="right">0.04</td>
+<td align="right">140</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dfl_totals <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">0</span>))</span></code></pre></div>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="9%" />
+<col width="15%" />
+<col width="12%" />
+<col width="11%" />
+<col width="9%" />
+<col width="12%" />
+<col width="11%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">mean_age</th>
+<th align="right">se_age</th>
+<th align="right">mean_female</th>
+<th align="right">se_female</th>
+<th align="right">mean_crt</th>
+<th align="right">se_crt</th>
+<th align="right">mean_left</th>
+<th align="right">se_leftp</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">22.7</td>
+<td align="right">0.15</td>
+<td align="right">0.46</td>
+<td align="right">0.02</td>
+<td align="right">1.65</td>
+<td align="right">0.05</td>
+<td align="right">0.59</td>
+<td align="right">0.02</td>
+<td align="right">422</td>
+</tr>
+</tbody>
+</table>
+<div id="balance-tests" class="section level2">
+<h2>Balance tests</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(age <span class="sc">~</span> treatment, <span class="at">data=</span>.) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = age ~ treatment, data = .)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -4.9121 -1.6893 -0.4325  1.0879 14.8175 </span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)              22.9121     0.2488  92.079   &lt;2e-16 ***</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentForced Choice   -0.4796     0.3570  -1.343    0.180    </span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentNominal Choice  -0.2228     0.3550  -0.628    0.531    </span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 2.996 on 419 degrees of freedom</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.004291,   Adjusted R-squared:  -0.0004616 </span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 0.9029 on 2 and 419 DF,  p-value: 0.4062</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(female <span class="sc">~</span> treatment, <span class="at">data=</span>.) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = female ~ treatment, data = .)</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.4744 -0.4714 -0.4414  0.5286  0.5586 </span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)              0.44138    0.04153  10.627   &lt;2e-16 ***</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentForced Choice   0.03307    0.05959   0.555    0.579    </span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentNominal Choice  0.03005    0.05926   0.507    0.612    </span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.5001 on 419 degrees of freedom</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.0009089,  Adjusted R-squared:  -0.00386 </span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 0.1906 on 2 and 419 DF,  p-value: 0.8265</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(cr  <span class="sc">~</span> treatment, <span class="at">data=</span>.) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = cr ~ treatment, data = .)</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -1.8394 -0.8394  0.1606  1.1606  1.4500 </span></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)              1.57931    0.09291  16.998   &lt;2e-16 ***</span></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentForced Choice   0.26011    0.13330   1.951   0.0517 .  </span></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentNominal Choice -0.02931    0.13256  -0.221   0.8251    </span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 1.119 on 419 degrees of freedom</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.01323,    Adjusted R-squared:  0.008523 </span></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 2.809 on 2 and 419 DF,  p-value: 0.06137</span></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>df_l <span class="sc">%&gt;%</span> <span class="fu">lm</span>(leftp <span class="sc">~</span> treatment, <span class="at">data=</span>.) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; lm(formula = leftp ~ treatment, data = .)</span></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residuals:</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.6000 -0.5985  0.4000  0.4015  0.4429 </span></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)              0.60000    0.04103  14.625   &lt;2e-16 ***</span></span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentForced Choice  -0.00146    0.05886  -0.025    0.980    </span></span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; treatmentNominal Choice -0.04286    0.05854  -0.732    0.464    </span></span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.494 on 419 degrees of freedom</span></span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-squared:  0.001624,   Adjusted R-squared:  -0.003142 </span></span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 0.3408 on 2 and 419 DF,  p-value: 0.7114</span></span></code></pre></div>
+</div>
+</div>
+<div id="sessioninfo" class="section level1">
+<h1>sessionInfo()</h1>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.2.3 (2023-03-15 ucrt)</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: Windows 10 x64 (build 22621)</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] LC_COLLATE=English_Ireland.utf8  LC_CTYPE=English_Ireland.utf8   </span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] LC_MONETARY=English_Ireland.utf8 LC_NUMERIC=C                    </span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] LC_TIME=English_Ireland.utf8    </span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] here_1.0.1         multiwayvcov_1.2.3 multcomp_1.4-23    TH.data_1.1-1     </span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] MASS_7.3-58.3      survival_3.5-5     mvtnorm_1.1-3      stargazer_5.2.3   </span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] lubridate_1.9.2    forcats_1.0.0      stringr_1.5.0      dplyr_1.1.1       </span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] purrr_1.0.1        readr_2.1.4        tidyr_1.3.0        tibble_3.2.1      </span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] ggplot2_3.4.1      tidyverse_2.0.0   </span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] lattice_0.20-45   zoo_1.8-11        rprojroot_2.0.3   digest_0.6.31    </span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] utf8_1.2.3        R6_2.5.1          evaluate_0.20     highr_0.10       </span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] pillar_1.9.0      rlang_1.1.0       rstudioapi_0.14   jquerylib_0.1.4  </span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] Matrix_1.5-3      rmarkdown_2.20    textshaping_0.3.6 labeling_0.4.2   </span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] splines_4.2.3     bit_4.0.5         munsell_0.5.0     compiler_4.2.3   </span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] xfun_0.37         systemfonts_1.0.4 pkgconfig_2.0.3   htmltools_0.5.4  </span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] tidyselect_1.2.0  codetools_0.2-19  fansi_1.0.4       crayon_1.5.2     </span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] tzdb_0.3.0        withr_2.5.0       grid_4.2.3        jsonlite_1.8.4   </span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [33] gtable_0.3.3      lifecycle_1.0.3   magrittr_2.0.3    scales_1.2.1     </span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [37] cli_3.6.0         stringi_1.7.12    vroom_1.6.1       cachem_1.0.7     </span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [41] farver_2.1.1      bslib_0.4.2       ragg_1.2.5        generics_0.1.3   </span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [45] vctrs_0.6.1       boot_1.3-28.1     sandwich_3.0-2    tools_4.2.3      </span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [49] bit64_4.0.5       glue_1.6.2        hms_1.1.3         parallel_4.2.3   </span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [53] fastmap_1.1.1     yaml_2.3.7        timechange_0.2.0  colorspace_2.1-0 </span></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [57] knitr_1.42        sass_0.4.5</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
