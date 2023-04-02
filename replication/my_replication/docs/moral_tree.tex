@@ -1,0 +1,114 @@
+%\documentclass{article}
+
+%\usepackage[latin1]{inputenc}
+%\usepackage{tikz}
+%\usetikzlibrary{trees}
+%\begin{document}
+%\thispagestyle{empty}
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=1.5cm, sibling distance=3.75cm]
+\tikzstyle{level 2}=[level distance=1.75cm, sibling distance=2.25cm]
+\tikzstyle{level 3}=[level distance=2.0cm, sibling distance=2.0cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4.0em, text centered]
+\tikzstyle{end} = [circle, minimum width=2.5pt,fill, inner sep=0pt]
+
+% The sloped option gives rotated edge labels. Personally
+% I find sloped labels a bit difficult to read. Remove the sloped options
+% to get horizontal labels. 
+\begin{figure}
+\begin{tikzpicture}[sloped] %grow=right,
+\node[bag] {\normalsize Game Tree}
+  child{
+    node[bag] {\small Base }
+    child {
+        node[bag] {\small Nature}        
+            child {
+                node[end, label=left:{\small L}] {}
+                edge from parent
+                node[above] {\scriptsize yellow}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            child {
+                node[end, label=left:{\small 0}] {}
+                edge from parent
+                node[above] {\scriptsize green}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            edge from parent 
+%            node[above] {lottery}
+    }
+  }
+  child{
+    node[bag] {\small Nominal Choice \\Participant}
+    child {
+        node[bag] {\small Nature}        
+            child {
+                node[end, label=left:{\small L}] {}
+                edge from parent
+                node[above] {\scriptsize yellow}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            child {
+                node[end, label=left:{\small 0}] {}
+                edge from parent
+                node[above] {\scriptsize green}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            edge from parent 
+            node[above] {\scriptsize yellow}
+    }
+    child {
+        node[bag] {\small Nature}        
+            child {
+                node[end, label=right:{\small L}] {}
+                edge from parent
+                node[above] {\scriptsize yellow}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            child {
+                node[end, label=left:{\small 0}] {}
+                edge from parent
+                node[above] {\scriptsize green}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            edge from parent 
+            node[above] {\scriptsize green}
+    }
+  }
+  child{
+    node[bag] {\small Forced Choice \\Participant}
+    child {
+		node[end,label=left:{\small S}] {}      
+		edge from parent 
+		node[above] {\scriptsize safe}
+	}
+    child {
+        node[bag] {\small Nature}        
+            child {
+                node[end, label=left:{\small L}] {}
+                edge from parent
+                node[above] {\scriptsize yellow}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            child {
+                node[end, label=left:{\small 0}] {}
+                edge from parent
+                node[above] {\scriptsize green}
+                node[below] {\scriptsize $p=0.5$}
+            }
+            edge from parent 
+            node[above] {\scriptsize lottery}
+    }
+  }
+  ;
+\end{tikzpicture}
+\caption{\footnotesize Note: The figure shows the sequential form game representation of how the earnings were determined in each of the three treatments
+in the experiments.\tiny Lab: L = 800,S = 25 (NOK); Online: L = 8, S$\in (-0.25, 0, 0.25)$ (USD)}%
+
+\label{fig:gametree}
+\end{figure}
+
+%\end{document}

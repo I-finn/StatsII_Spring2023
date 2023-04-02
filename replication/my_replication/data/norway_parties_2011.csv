@@ -1,0 +1,16 @@
+Party,ID, Votes,perc,Seats
+LabourParty, Ap, 765289,31.66,3373
+ConservativeParty,H,676059,27.97,2349
+ProgressParty,Frp,274555,11.36,1143
+CentreParty,Sp,163246,6.75,1419
+LiberalParty,V,151406,6.26,640
+ChristianDemocraticParty,KrF,134653,5.57,656
+SocialistLeftParty,SV,98225,4.06,364
+RedParty,R,37241,1.54,57
+GreenParty,MDG,21785,0.90,18
+PensionersParty,pp,19851,0.82,50
+DemocratsinNorway,dn,4327,0.18,8
+CoastalParty,Kp,4070,0.17,41
+Others,others,66449,2.75,663
+
+

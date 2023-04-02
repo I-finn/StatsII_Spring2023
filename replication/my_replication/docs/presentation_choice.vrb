@@ -1,0 +1,25 @@
+\frametitle{Experimental Design - Variables}
+
+	\begin{block}{Dependent Variables}\small
+		\begin{itemize}
+			\item \texttt{inequality} inequality implemented by the spectator
+			\[ inequality = \frac{|Income Lucky - Income Unlucky|}{Total Income} \in [0,1]\]
+
+			Coded as:
+			\begin{lstlisting}
+				abs(800 - 2*transfer)/800
+				abs(8 - 2*y)/8.0
+			\end{lstlisting}
+
+			\begin{itemize}
+			\item no transfer \texttt{inequality} =1;
+			\item equal split: \texttt{inequality} =0; \item full transfer \texttt{inequality} =1
+			\end{itemize}			\item \texttt{zero\_to\_worst\_off} : 1 if the spectator does not assign any income to one of the participants
+
+			\begin{lstlisting}
+				(y %in% c(0,8))
+			\end{lstlisting}
+		\end{itemize}
+	\end{block}
+
+

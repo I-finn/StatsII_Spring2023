@@ -1,0 +1,426 @@
+\documentclass{beamer}
+% There are many different themes available for Beamer. A comprehensive
+% list with examples is given here:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+%%\usetheme{AnnArbor}
+\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{Frankfurt}
+%\usetheme{boxes}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{focus}
+\usepackage{hologo}
+
+\usepackage{tikz}
+\usepackage{url}
+\usepackage{color}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usetikzlibrary{shapes.geometric, arrows, positioning, calc}
+\tikzstyle{startStop} = [rectangle, rounded corners, minimum width=7cm, text width=11cm, text centered, minimum height=.5cm, draw=black]
+\tikzstyle{io} = [circle, rounded corners, minimum width=1cm, text width=1.5cm, minimum height=.1, text centered, draw=black]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\usepackage{pdfpages}
+\usepackage{graphicx}   % need for figures
+\usepackage{adjustbox}
+\usepackage{fontawesome}
+\usepackage[absolute,overlay]{textpos}
+%CHANGES COLOR TO GREEN
+\usepackage{listings}
+\usepackage{color}
+% for game design diagram
+\usetikzlibrary{trees}
+
+\usepackage{verbatim}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\scriptsize,
+	breakatwhitespace=true,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=false,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+\hypersetup{
+	colorlinks = true,
+	linkcolor=brickred,   % color of internal links
+	citecolor=brickred,   % color of links to bibliography
+	urlcolor=brickred,    % color of external links
+	%	pagebackref=true,
+	%	implicit=false,
+	%	bookmarks=true,
+	bookmarksopen=true,
+	pdfdisplaydoctitle=true
+}
+\lstset{style=mystyle}
+\definecolor{brickred}{rgb}{0.8, 0.25, 0.33}
+\definecolor{mygreen}{cmyk}{0.82,0.11,1,0.25}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.8}}{\pgfsetfillopacity{1}}
+\setbeamercolor{structure}{fg=mygreen}
+\setbeamercolor*{block title example}{fg=white,
+	bg= white}
+\setbeamercolor*{block body example}{fg= white,
+	bg= white}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{dcolumn}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage[all,cmtip]{xy}
+\tikzstyle{largeSquare} = [rectangle, rounded corners, minimum width=7cm, text width=9cm, minimum height=.5cm, draw=black]
+\usepackage{tikzsymbols}
+
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{arrow}=[thick,->,>=stealth]
+\beamertemplatenavigationsymbolsempty
+\usepackage{subfloat}
+\setbeamertemplate{headline}{}
+\newcommand{\speechthis}[2]{
+	\tikz[remember picture,baseline]{\node[anchor=base,inner sep=0,outer sep=0]
+		(#1) {\underline{#1}};\node[overlay,ellipse callout,fill=blue!50]
+		at ($(#1.north)+(-.5cm,0.8cm)$) {#2};}
+}
+
+\setbeamercolor{button}{bg=mygreen,fg=white}
+
+\setbeamercovered{invisible}
+
+\usecolortheme{beaver} %TODO
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+\lstset{style=mystyle}
+\newcommand{\Sref}[1]{Section~\ref{#1}}
+\newtheorem{hyp}{Hypothesis}
+
+\title{Choice and Personal responsibility\\What is a morally relevant choice?}
+\author{Imelda Finn}
+\subtitle{Applied Statistical Analysis II}
+\date{Spring 2023}
+\begin{document}
+	\frame{\titlepage}
+
+	\begin{frame}{Background/introduction}
+
+		\begin{block}
+
+			\begin{itemize}
+
+				\item Introduction \vspace{.25cm}
+				\begin{itemize}
+					\item Alexander W. Cappelen, Sebastian Fest, Erik Ø. Sørensen, Bertil Tungodden
+					\item September 12, 2018
+					\item Norwegian School of Economics, Bergen, Norway
+					\item \href{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/A6KFNO}{Data from Harvard Dataverse, FAIR - Centre for Experimental Research on Fairness, Inequality and Rationality}
+					\item 					\url{https://cee.boun.edu.tr/sites/cee.boun.edu.tr/files/documents/CEE2018Conference/cprwmrc.pdf} %cite
+				\end{itemize}
+			\end{itemize}
+		\end{block}
+	\end{frame}
+
+	\begin{frame}{Theory}
+
+	\begin{block}
+
+		\begin{itemize}
+			\item Inequality is tolerated because people are blamed for their choices/outcomes.
+			\item A person should \textbf{not} be held personally responsible for the outcome of a choice if:
+			\begin{itemize}
+				\item the person could not have changed the likelihood of the outcome by choosing differently 	(\textbf{no ex ante causal responsibility}), or
+				\item  the person could only have avoided the outcome at unreasonably large cost (\textbf{no acceptable alternative}).
+			\end{itemize}
+			\item 	$H_0$ a trivial choice will make no difference to the outcome.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+	\begin{frame}{Game Design}
+		\input{moral_tree}
+%		\includegraphics[width=.75\textwidth]{moral_tree.pdf}
+	\end{frame}
+%------------------------------------------------------------------------------------
+
+	\begin{frame}{Experimental Design}
+
+	\begin{block}
+
+		\begin{itemize}
+			\item Studying spectators decision to redistribute money/not
+			\item payment allocated in all cases by lottery - picking green/yellow ball.
+			\item random allocation to treatment, no interaction - blind trial
+			\item background information about age, gender, and political affiliation
+			\item three-item cognitive reflection test measuring the ability to correct for incorrect
+				intuitive answers through reflection.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+	\begin{frame}{Lab Experiment}
+
+	\begin{block}
+
+		\begin{itemize}
+			\item 422 participants from 2 Norwegian colleges
+			\item average age 22.7 years, 54\% male, average CRT score 1.6/3, 41\% self-reported support for a right-wing party in Norway\footnote{close to the distribution of votes in the last election in Norway.}
+			\item 800 NOK or 0
+			\item all worked at simple task
+			\item  spectators were participants; they didn't know when making choice if they had gotten money
+			\item spectators asked what motivated their decision to redistribute/not.
+			\item Average payment was 475 NOK (approximately 80 USD) incl 100 basic fee.
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+%------------------------------------------------------------------------------------
+
+  	\begin{frame}{Lab Experiment Transfers}
+		\includegraphics[height=.9\textheight]{../graphs/histograms_lab.pdf}
+	\end{frame}
+%------------------------------------------------------------------------------------
+\begin{frame}{Lab Experiment Inequality}
+	\includegraphics[height=.9\textheight]{../graphs/mean_ineq_nothing_lab.pdf}
+	Note: The left panel shows the average inequality implemented by the spectators in each
+	treatment, the right panel shows the share of spectators assigning no income to one of the
+	participants in the pair in each of the treatments. The standard errors of the mean are indicated.
+\end{frame}
+%------------------------------------------------------------------------------------
+		\begin{frame}{Table 1: Lab Results Regression 1: the role of choice}{\tiny
+		%TODO still too long
+		% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+		% Date and time: Fri, Mar 31, 2023 - 18:10:09
+\input{../tables/lab_1.tex}
+	}  % end tiny
+	\end{frame}
+
+%------------------------------------------------------------------------------------
+	\begin{frame}{Lab Results - Regression 1}
+
+		\begin{block}{Notes}
+			The table reports linear regressions of the variable ``Inequality''
+			(columns (1)–(2), measuring the level of inequality implemented by
+			the spectator) and of the indicator variable “Nothing to the worse off”
+			(columns (3)–(4)), taking the value one if the spectator does not assign
+			any income to one of the participants) on a set of explanatory variables.
+			“Forced Choice”: indicator variable for the spectator being in the Forced
+			Choice treatment. “Nominal Choice”: indicator variable for the spectator
+			being in the Nominal Choice treatment. “Left-Wing”: indicator variable
+			for the spectator self-reporting that he or she voted for a non-right-wing
+			party in the last election. “Female”: indicator variable for the spectator
+			being female. “Age”: indicator variable for the spectator’s age being at
+			or above the median in the sample (22 years). “Cognitive Reflection”:
+			indicator variable for the spectator’s score on the cognitive reflection test
+			being at or above median (2 out of 3 points). Robust standard errors in
+			parentheses.
+		\end{block}
+	\end{frame}
+
+	\begin{frame}{Table 2: Lab Results - Heterogeneous effects on Inequality}{\tiny
+		%TODO still too long
+		% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+		% Date and time: Fri, Mar 31, 2023 - 18:10:09
+		\input{../tables/lab_2.tex}
+	}  % end tiny
+\end{frame}
+
+%------------------------------------------------------------------------------------
+	\begin{frame}{\tiny Lab Experiment - Heterogeneous effects on Inequality}
+
+	\begin{block}{Notes}{\tiny
+		The table reports linear regressions of the variable “Inequality”, which includes interactions
+between being in one of the choice treatments and the background variables. “Choice”: indicator
+variable for the spectator being in the Nominal Choice or the Forced Choice treatment. “Left-wing”:
+indicator variable for the spectator self-reporting that he or she voted for a non-right-wing party in the
+last election. “Female”: indicator variable for the spectator being female. “Age”: indicator variable
+for the spectator’s age being at or above the median in the sample (22 years). “Cognitive Reflection”:
+indicator variable for the spectator’s score on the cognitive reflection test being at or above median
+(2 out of 3 points). The “Linear combination” row shows the treatment effect of choice on the group
+that has the value one on the corresponding background variable, while “Choice” shows the treatment
+effect for the other group. Robust standard errors in parentheses. %The estimates for the other controls are shown in Table A.2.
+}
+		\end{block}
+\end{frame}
+%------------------------------------------------------------------------------------
+\begin{frame}{Online Experiment}
+
+	\begin{block}
+
+		\begin{itemize}
+			\item Participants
+			\begin{itemize}
+				\item Amazon Mechanical Turk (AMT)
+				\item 8 USD or $\in (-0.25, 0, .25)$
+				\item random allocation to: work + earnings/earnings only
+			\end{itemize}
+			\item Spectators
+			\begin{itemize}
+				\item 5,757 spectators from Norway (KANTAR)
+				\item on average 48.5 years old, 52\% male, average 1.4/3 on CRT, and 31\% self-reported support for right-wing parties in Norway.
+				\item spectators were randomly allocated to treatments and were paid a fixed compensation for taking part in the study, independent of their spectator decision.
+				%\item Average payment was 475 NOK (approximately 80 USD) incl 100 basic fee.
+			\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{frame}
+%------------------------------------------------------------------------------------
+
+\begin{frame}{Online Experiment Transfers}
+	\includegraphics[height=.9\textheight]{../graphs/histograms_kantar.pdf}
+	\emph{Note}: The figure shows histograms of the amount of money transferred from the lucky to
+	the unlucky participant by the spectator in each treatment. The top two panels are for treatments
+	with work requirements, the two bottom panels are for treatments without such a
+	requirement.
+\end{frame}
+%------------------------------------------------------------------------------------
+
+\begin{frame}{Online Experiment Inequality}
+	\includegraphics[height=.9\textheight]{../graphs/mean_ineq_nothing_kantar_wd.pdf}
+	\emph{Note}: The left panels show the average inequality implemented by the spectators in
+each treatment, the right panel shows the share of spectators assigning no income to
+one of the participants in the pair in each of the treatments. The top panels show for
+treatments with work requirements, the bottom panels show for treatments without
+such a requirement. The standard errors of the mean are indicated.
+\end{frame}
+%------------------------------------------------------------------------------------
+%------------------------------------------------------------------------------------
+\begin{frame}{Table 3: Online Results -  Regression 1: the role of choice}{\tiny
+		%TODO still too long
+		% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+		% Date and time: Fri, Mar 31, 2023 - 18:10:09
+		\input{../tables/online_1.tex}
+	}  % end tiny
+\end{frame}
+
+%------------------------------------------------------------------------------------
+\begin{frame}{Regression 3}
+
+	\begin{block}{Notes}{\tiny
+The table reports linear regressions of the variable “Inequality” (columns (1)–(3),
+measuring the inequality implemented by the spectator) and of the indicator variable “Nothing
+to the worse off” (columns (4)–(6), taking the value one if the spectator does not assign
+any income to one of the participants) on a set of explanatory variables. “Forced
+Choice”: indicator variable for the spectator being in the Forced Choice treatment. “Nominal
+Choice”: indicator variable for the spectator being in the Nominal Choice treatment.
+“Work requirement”: indicator variable for the participants being in a work requirement
+treatment. “Left-Wing”: indicator variable for the spectator self-reporting that he or she
+voted for a non-right-wing party in the last election. “Female”: indicator variable for the
+spectator being female. “Age”: indicator variable for the spectator’s age being at or above
+the median in the sample (49 years). “Cognitive Reflection”: indicator variable for the spectator’s
+score on the cognitive reflection test being at or above median (2 out of 3 points).
+“University education”: indicator variable for the spectator having university education.
+“High income”: indicator variable for the spectator having above median income (above
+500 000 NOK). Robust standard errors in parentheses.
+} % end tiny
+	\end{block}
+\end{frame}
+
+\begin{frame}{Table 4: Online Results -  Regression 4: Heterogeneous effects on Inequality}{\tiny
+		%TODO still too long
+		% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+		% Date and time: Fri, Mar 31, 2023 - 18:10:09
+		\input{../tables/online_2.tex}
+	}  % end tiny
+\end{frame}
+
+%------------------------------------------------------------------------------------
+\begin{frame}{Online Experiment - Heterogeneous effects on Inequality}
+
+	\begin{block}{Notes}
+		The table reports linear regressions of the variable “Inequality” on “Choice”: indicator variable for
+		the spectator being in the Nominal Choice or Forced Choice treatment. “Left-wing”: indicator variable for
+		the spectator self-reporting that he or she voted for a non-right-wing party in the last election. “Female”:
+		indicator variable for the spectator being female. “Age”: indicator variable for the spectator’s age being at
+		or above the median in the sample (49 years). “Cognitive Reflection”: indicator variable for the spectator’s
+		score on the cognitive reflection test being at or above median (2 out of 3 points). “University education”:
+		indicator variable for the spectator having university education. “High income”: indicator variable for the
+		spectator having above median income (above 500 000 NOK). “Work requirement”: indicator variable for
+		the participants being in a work requirement treatment. Robust standard errors in parentheses. %The full regression table is shown in Table A.2.
+	\end{block}
+\end{frame}
+%------------------------------------------------------------------------------------
+
+	\begin{frame}{Conclusions}
+
+	\begin{block}
+
+		\begin{quote}
+			Our findings suggest that people consider the role of choice in determining agency
+			and personal responsibility to go beyond the restrictions of the two minimal conditions.
+			They find individual choices morally relevant in cases where these choices do
+			not change the ex ante probabilities of the outcomes and in cases where there is no
+			acceptable alternative to the chosen alternative. Our experimental results thus show
+			that the presence of choice is a remarkably powerful source of inequality acceptance
+			in society.
+		\end{quote}
+
+	\end{block}
+
+\end{frame}
+
+
+%-----------------------------------------------
+
+	\begin{frame}{Twist}
+
+	\begin{block}
+
+			The authors mention an interaction effect of leftwing votes in the Lab experiment
+
+			I factored the spectators in the Lab experiment age group out of the main online group and looked for 	interactions.
+
+
+	\end{block}
+
+	\end{frame}
+
+
+
+\end{document}
