@@ -1,0 +1,164 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{graphicx,textcomp}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage[reqno]{amsmath}
+\usepackage{amsthm}
+\usepackage{fancyvrb}
+\usepackage{amssymb,enumerate}
+\usepackage[all]{xy}
+\usepackage{endnotes}
+\usepackage{lscape}
+\newtheorem{com}{Comment}
+\usepackage{float}
+\usepackage{hyperref}
+\newtheorem{lem} {Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}{Definition}
+\newtheorem{cor}{Corollary}
+\newtheorem{obs}{Observation}
+\usepackage[compact]{titlesec}
+\usepackage{dcolumn}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{multirow}
+\usepackage{xcolor}
+\newcolumntype{.}{D{.}{.}{-1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\definecolor{light-gray}{gray}{0.65}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim} % includes comment blocks
+%\usepackage{rotating}
+%\usepackage{geometry}
+%\usepackage{pdflscape}
+\usepackage{lscape}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+\lstset{style=mystyle}
+\newcommand{\Sref}[1]{Section~\ref{#1}}
+\newtheorem{hyp}{Hypothesis}
+
+\title{Applied Stats II - Problem Set 4}
+\date{Due: April 16, 2023}
+\author{Imelda Finn (22334657)}
+
+\begin{document}
+	\maketitle
+\begin{comment}
+	\section*{Instructions}
+	\begin{itemize}
+	\item Please show your work! You may lose points by simply writing in the answer. If the problem requires you to execute commands in \texttt{R}, please include the code you used to get your answers. Please also include the \texttt{.R} file that contains your code. If you are not sure if work needs to be shown for a particular problem, please ask.
+	\item Your homework should be submitted electronically on GitHub in \texttt{.pdf} form.
+	\item This problem set is due before 23:59 on Sunday April 16, 2023. No late assignments will be accepted.
+
+	\end{itemize}
+
+	\vspace{.25cm}
+\end{comment}
+
+	Code in \texttt{PS4\_ImeldaFinn.R}
+
+\section*{Question 1}
+\vspace{.25cm}
+\noindent We're interested in modeling the historical causes of infant mortality. We have data from 5641 first-born in seven Swedish parishes 1820-1895. Using the "infants" dataset in the \texttt{eha} library, fit a Cox Proportional Hazard model using mother's age and infant's gender as covariates. Present and interpret the output.
+
+  \lstinputlisting[language=R, firstline=54, lastline=54]{PS4_ImeldaFinn.R}
+
+
+%===============================================================
+  \lstinputlisting[language=R, firstline=71, lastline=71]{PS4_ImeldaFinn.R}
+%=============================================================	
+%\clearpage
+
+  \begin{figure}[!htbp]
+	  \includegraphics[width=0.7\textwidth,height=0.5\textheight]{graphics/coxph.png}
+	  \caption{Cox Proportional-Hazard}
+	  \label{fig:cox}
+	\end{figure}
+
+  \input{tables/coxph.tex}
+
+\begin{comment}  
+  \end{comment]
+
+
+\begin{comment}
+  \begin{figure}[!htbp]
+	  \includegraphics[width=0.85\textwidth]{graphics/q2_data.png}
+	  \caption{Q2 Data}
+	  \label{fig:mle:data}
+	\end{figure}
+
+  \begin{figure}[!htbp]
+	  \includegraphics[width=0.7\textwidth]{graphics/wireframe.pdf}
+	  \caption{mle surface}
+	  \label{fig:surface}
+	\end{figure}
+  \begin{figure}[!htbp]
+	  \includegraphics[width=0.7\textwidth]{graphics/q2_xy.png}
+	  \includegraphics[width=0.7\textwidth]{graphics/q2_hist.png}
+	  \caption{Q2 Data}
+	  \label{fig:mle}
+	\end{figure}
+
+	\clearpage
+
+\lstinputlisting[language=R, firstline=3,lastline=3]{PS3_ImeldaFinn.R}
+
+	The prediction equation is: $y = 0.1398324 + 2.7265559 \times x$.
+
+	$\hat y =  0.13983  (\theta)  +  5.55753  (\bar{x}) *  2.72656  (\beta) =  15.29274$
+
+	$\bar y = 15.29289$
+\end{comment}
+
+%https://www.sascha-frank.com/Faq/tables_three.html
+%http://www.sthda.com/english/wiki/ggplot2-facet-split-a-plot-into-a-matrix-of-panels#facet-labels
+  \begin{comment}
+  \begin{lstlisting}[language=R]
+      gdp <- read_csv("./data/gdpChange.csv")
+      gdp$diff <- ifelse(gdp$GDPWdiff==0, "no change", 
+                   ifelse(gdp$GDPWdiff>0, "positive", "negative")) 
+      gdp$diff2 <- relevel(factor(gdp$diff, ordered = FALSE), ref="no change")
+  \end{lstlisting}
+
+  \begin{sidewaystable}
+%\begin{tabular}...\end{tabular}
+  \end{sidewaystable}
+  %\input{tables/gdp_crosstab.tex}
+
+  \begin{landscape}
+    \include{tables/gdp_crosstab.tex}
+  \end{landscape}
+
+  \end{comment}
+
+\end{document}
