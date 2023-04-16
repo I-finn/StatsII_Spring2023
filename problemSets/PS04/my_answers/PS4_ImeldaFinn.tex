@@ -88,34 +88,42 @@
 
 \section*{Question 1}
 \vspace{.25cm}
-\noindent We're interested in modeling the historical causes of infant mortality. We have data from 5641 first-born in seven Swedish parishes 1820-1895. Using the "infants" dataset in the \texttt{eha} library, fit a Cox Proportional Hazard model using mother's age and infant's gender as covariates. Present and interpret the output.
+\noindent We're interested in modeling the historical causes of child mortality. We have data from 26574 children born in Skellefteå, Sweden from 1850 to 1884. Using the ``child" dataset in the \texttt{eha} library, fit a Cox Proportional Hazard model using mother's age and infant's gender as covariates. Present and interpret the output.
 
-  \lstinputlisting[language=R, firstline=54, lastline=54]{PS4_ImeldaFinn.R}
-
-
+%  \lstinputlisting[language=R, firstline=54, lastline=54]{PS4_ImeldaFinn.R}
 %===============================================================
-  \lstinputlisting[language=R, firstline=71, lastline=71]{PS4_ImeldaFinn.R}
+  \lstinputlisting[language=R, firstline=63, lastline=65]{PS4_ImeldaFinn.R}
 %=============================================================	
-%\clearpage
+The model results are shown in Table~\ref{tbl:add}, and the LRT results in Table~\ref{tbl:add:drop}.  Base case for sex is male, mean age for mother is 32.
+
+There is a 0.082 decrease in the expected log of the hazard for female babies compared to male, holding mothers' age constant. For a unit increase of mother's age, there is a 0.008 increase in the expected log of the hazard, holding sex constant.\footnote{The interaction term for $m.age\times sex$ is 0.001, and is not significant, $p-value =0.7445$}
+
+The hazard ratio of female babies is 0.92 that of male babies, i.e. female babies are less likely to die (92 female babies die for every 100 male babies; female deaths are 8\% lower, etc.), holding mother's age constant.  
+
+  \input{tables/coxph.tex}
+  \input{tables/child_drop1.tex}
+\clearpage
 
   \begin{figure}[!htbp]
-	  \includegraphics[width=0.7\textwidth,height=0.5\textheight]{graphics/coxph.png}
+	  \includegraphics[width=0.7\textwidth,height=0.5\textheight]{graphics/coxreg.png}
 	  \caption{Cox Proportional-Hazard}
 	  \label{fig:cox}
 	\end{figure}
 
-  \input{tables/coxph.tex}
+
+
+  \begin{figure}[!htbp]
+	  \includegraphics[width=0.85\textwidth]{graphics/surv_prop.png}
+	  \caption{survival proportions - m.age = 32}
+	  \label{fig:survprop}
+	\end{figure}
 
 \begin{comment}  
   \end{comment]
 
 
+
 \begin{comment}
-  \begin{figure}[!htbp]
-	  \includegraphics[width=0.85\textwidth]{graphics/q2_data.png}
-	  \caption{Q2 Data}
-	  \label{fig:mle:data}
-	\end{figure}
 
   \begin{figure}[!htbp]
 	  \includegraphics[width=0.7\textwidth]{graphics/wireframe.pdf}
@@ -144,10 +152,6 @@
 %http://www.sthda.com/english/wiki/ggplot2-facet-split-a-plot-into-a-matrix-of-panels#facet-labels
   \begin{comment}
   \begin{lstlisting}[language=R]
-      gdp <- read_csv("./data/gdpChange.csv")
-      gdp$diff <- ifelse(gdp$GDPWdiff==0, "no change", 
-                   ifelse(gdp$GDPWdiff>0, "positive", "negative")) 
-      gdp$diff2 <- relevel(factor(gdp$diff, ordered = FALSE), ref="no change")
   \end{lstlisting}
 
   \begin{sidewaystable}
