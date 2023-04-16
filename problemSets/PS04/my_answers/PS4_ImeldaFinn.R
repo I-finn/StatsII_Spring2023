@@ -29,7 +29,7 @@ lapply(c("ggplot2", "stargazer", "tidyverse", "stringr", "here",
 # multi/poiss
 lapply(c("AER", "pscl", "nnet","MASS"), pkgTest)
 lapply(c("foreign", "MASS","Hmisc", "reshape2", "nnet"),  pkgTest)
-lapply(c("survival", "eha", "tidyverse", "ggfortify"), pkgTest)
+lapply(c("survival", "eha", "survminer", "ggfortify"), pkgTest)
 }
 clean_env()
 rm(list=ls())
@@ -46,9 +46,9 @@ output_stargazer <- function(outputFile, appendVal=TRUE, ...) {
   cat(paste(output, collapse = "\n"), "\n", file=outputFile, append=appendVal)}
 ############################################################################
 # We're interested in modeling the historical causes of infant
-#mortality. We have data from 26754
-#first-born in seven Swedish
-#parishes 1820-1895. Using the "child" dataset in the eha library,
+#mortality. We have data from 26754 children born in Skellefteå, Sweden, 
+# 1850-1884, followed fifteen years or until death or out-migration.
+#Using the "child" dataset in the eha library,
 #fit a Cox Proportional Hazard model using mother's age and 
 #child's gender as covariates. Present and interpret the output.
 
@@ -63,20 +63,36 @@ crosstable(child, c(m.age, sex, event), funs=c(mean, min, max),
 child_surv <- with(child, Surv(enter, exit, event))
 child_cph <- coxph(child_surv~ m.age + sex, data = child)
 child_drop1 <- drop1(child_cph, test = "Chisq")
-
+child_drop1
 summary(child_cph)
 
 fit<- survfit(child_cph)
 autoplot(fit, surv.line='dashed', censor=FALSE)
 
+fit$surv %>% plot()
+fit$cumhaz %>% plot()
 output_stargazer("tables/child_drop1.tex",child_drop1,  appendVal = FALSE,
-                 label="tbl:add:drop")
-child_drop1 %>% stargazer(type="text")
+                 label="tbl:add:drop", summary=FALSE)
+child_drop1 %>% stargazer(type="text", summary=FALSE)
+child_drop1
 
-png("graphics/coxreg.png")
+# output plot of cumulative hazard
 plot_CoxPH <- coxreg(child_cph , data=child)
-plot(plot_CoxPH)
+png("graphics/coxreg.png")
+plot(plot_CoxPH, xlab = "Duration (Years)", ylab="Cumulative Hazard",
+     conf.int = 0.95, main = "eha::child ~ sex + m.age", col="darkgrey",
+     fn="cumhaz")
 dev.off()
+
+plot(plot_CoxPH, xlab = "Duration (Years)", ylab="Survival",
+     conf.int = 0.95, main = "eha::child ~ sex + m.age", col="green",
+     fn="surv" )
+plot(plot_CoxPH, xlab = "Duration (Years)", ylab="log",
+     conf.int = 0.95, main = "eha::child ~ sex + m.age", col="grey",
+     fn="log" )
+plot(plot_CoxPH, xlab = "Duration (Years)", ylab="loglog",
+     conf.int = 0.95, main = "eha::child ~ sex + m.age", col="purple",
+     fn="loglog" )
 
 summary(plot_CoxPH)
 stargazer(plot_CoxPH, type = "text")
@@ -84,6 +100,7 @@ stargazer(plot_CoxPH, type = "text")
 stargazer(child_cph, type = "text")
 output_stargazer("tables/coxph.tex",child_cph,  appendVal = FALSE,
                  label="tbl:add")
+
 
 # There is a 0.082 decrease in the expected log of the hazard for female babies
 #compared to male, holding mothers' age constant. For a unit increase 
@@ -121,7 +138,7 @@ new_df <- with(child,
                )
 )
 fit <- survfit(child_surv, newdata = new_df)
-library(survminer)
+
 ggsurvplot(fit, conf.int = TRUE, palette = "Dark2", 
            censor = FALSE, data = child, ylim=c(0.75, 1))
 
@@ -150,12 +167,12 @@ autoplot(fit)
 ggsave("graphics/coxph.png")
 newdat <- with(child, 
                data.frame(
-                 sex = c("male", "female"), m.age=mean(32)
+                 sex = c("male", "female"), m.age=mean(child$m.age)
                )
 )
 
 png("graphics/surv_prop.png")
-plot(survfit(cox, newdata = newdat),# xscale = 12,
+plot(survfit(child_cph, newdata = newdat),# xscale = 12,
      conf.int = T,
      ylim = c(0.7, 1),
      col = c("red", "blue"),
@@ -167,6 +184,7 @@ legend("bottomleft",
        lty = 1, 
        col = c("red", "blue"),
        text.col = c("red", "blue"))
+
 dev.off()
 
 # Adding an interaction
@@ -176,32 +194,21 @@ drop1(cox.int, test = "Chisq")
 stargazer(cox.int, type = "text")
 
 
-# child_surv         
-# ------------------------------------------------
-#   sexfemale                     -0.084***         
-#   (0.027)          
-# 
-# socBranchfarming               -0.007           
-# (0.092)          
-# 
-# socBranchbusiness              0.335**          
-#   (0.141)          
-# 
-# socBranchworker                 0.110           
-# (0.094)          
-# 
-# ------------------------------------------------
-#   Observations                   26,574           
-# R2                              0.001           
-# Max. Possible R2                0.986           
-# Log Likelihood               -56,498.610        
-# Wald Test                33.180*** (df = 4)     
-# LR Test                  32.267*** (df = 4)     
-# Score (Logrank) Test     33.279*** (df = 4)     
 
 # There is a 0.08 decrease in the expected log of the hazard for female babies compared to 
 # male, holding socBranch constant. There is a 0.34 increase in the expected log of the hazard
 # for babies of businessmen compared to officials, holding sex constant.
+
+# plotting cumulative hazard
+fit.sex <- coxreg(Surv(enter, exit, event) ~ sex, data = child)
+fit.mage <- coxreg(Surv(enter, exit, event) ~ m.age, data = child)
+fit.sex.mage <- coxreg(Surv(enter, exit, event) ~ sex+m.age, data = child)
+
+compHaz(fit.sex, fit.mage, printLegend=FALSE) #
+legend("topleft", legend=c("sex", "m.age"),
+       col=c("red", "blue"), lty=1:2, cex=0.8)
+
+
 
 ##################################
 # Tutorial 7: Survival Analysis #
@@ -209,7 +216,7 @@ stargazer(cox.int, type = "text")
 
 km <- survfit(child_surv ~ 1, data = child)
 summary(km, times = seq(0, 15, 1))
-plot(km, main = "Kaplan-Meier Plot", xlab = "Years" ) #, ylim = c(0.7, 1))
+plot(km, main = "Kaplan-Meier Plot", xlab = "Years", ylim = c(0.7, 1) ) #, ylim = c(0.7, 1))
 autoplot(km)
 km_civst <- survfit(child_surv ~ civst, data = child)
 autoplot(km_civst)

@@ -94,9 +94,10 @@
 %===============================================================
   \lstinputlisting[language=R, firstline=63, lastline=65]{PS4_ImeldaFinn.R}
 %=============================================================	
-The model results are shown in Table~\ref{tbl:add}, and the LRT results in Table~\ref{tbl:add:drop}.  Base case for sex is male, mean age for mother is 32.
+The model results are shown in Table~\ref{tbl:add}, and the likelihood ratio test results in Table~\ref{tbl:add:drop}.  %Mother's age is a significant predictor at 0.001 level, child's sex at 0.01 level.  
+Base case for sex is male, mean age for mother is 32.
 
-There is a 0.082 decrease in the expected log of the hazard for female babies compared to male, holding mothers' age constant. For a unit increase of mother's age, there is a 0.008 increase in the expected log of the hazard, holding sex constant.\footnote{The interaction term for $m.age\times sex$ is 0.001, and is not significant, $p-value =0.7445$}
+There is a 0.082 decrease in the expected log of the hazard for female babies compared to male, holding mother's age constant. For a unit increase of mother's age, there is a 0.008 increase in the expected log of the hazard, holding sex constant.\footnote{The interaction term for $m.age\times sex$ is 0.001, and is not significant, $p-value =0.7445$}
 
 The hazard ratio of female babies is 0.92 that of male babies, i.e. female babies are less likely to die (92 female babies die for every 100 male babies; female deaths are 8\% lower, etc.), holding mother's age constant.  
 
